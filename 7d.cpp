@@ -7,15 +7,17 @@ int main(){
 
     int n,m,l;
     cin>>n>>m>>l;
-    ll a[n][m],b[m][l],c[n][l];
+    ll a[n][m],b[m][l],c[n][l]{};// init with 0
     // c[n][l]={0}; dame!!
-
+    //ll c[n][l]{(ll)0};
+    // std::fill(*c, *c + n*l, 0);
+/*
     REP(i,n){
         REP(j,l){
            c[i][j]=0;
         }
     }
-
+*/
     REP(i,n){
         REP(j,m){
             cin>>a[i][j];
