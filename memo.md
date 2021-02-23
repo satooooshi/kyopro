@@ -59,6 +59,7 @@ int calc_digit(long long N) {
 
 
 ```cpp  
+// cpp での！！！
 // string manipulations
     string s,p;
     getline(cin, s);
