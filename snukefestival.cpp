@@ -29,12 +29,12 @@ int main(){
 
         auto itera=lower_bound(a.begin(), a.end(),nowb);
         idxa=distance(a.begin(), itera);
-        numa=(itera==a.end())?n:idxa;
+        numa=(itera==a.end())?n:idxa;// mimann no kazu
 
         auto iterc=upper_bound(c.begin(),c.end(),nowb);
         idxc=distance(c.begin(), iterc);
         numc=(iterc==c.end())?0:n-idxc;
-        res+=numa*numc;
+        res+=numa*numc; // yoriue no kazu
     }
 
     cout<<res<<endl;
