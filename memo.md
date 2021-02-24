@@ -61,6 +61,7 @@ int calc_digit(long long N) {
 ```cpp  
 // cpp での！！！
 // string manipulations
+// http://farma-11.hatenablog.com/entry/2018/01/18/094729
     string s,p;
     getline(cin, s);
     getline(cin, p);
@@ -81,6 +82,11 @@ int calc_digit(long long N) {
 	}
      for(int i=97;i<=122;i++)cout<<(char)i<<" : "<<a[i]+a[i-32]<<endl;
     
+
+    int left = a,right = b;
+	        while(left < right){// banpei!!
+		        swap(s[left++],s[right--]);
+	        }
 
 ```
 
