@@ -14,7 +14,11 @@ int main(){
     // ll c[i][j]{0}; dame !!
     // ll c[n][l]{};// init with 0
     // std::fill(*c, *c + n*l, 0);
-
+    double x[100] = {0};
+    // ==
+    double aaa[100]{};
+    ll c[n][l]{};// init with 0
+    // ==
     REP(i,n){
         REP(j,l){
            c[i][j]=0;
@@ -88,5 +92,16 @@ int calc_digit(long long N) {
 		        swap(s[left++],s[right--]);
 	        }
 
+// floating point
+int main(){
+	double x1,y1,x2,y2;
+	scanf("%lf %lf %lf %lf",&x1,&y1,&x2,&y2);
+	printf("%.8lf\n",sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)));
+    //==
+     double a,b,c,d;
+    scanf("%lf %lf %lf %lf",&a,&b,&c,&d);
+    cout<< std::fixed << std::setprecision(8) <<sqrt((a-c)*(a-c)+(b-d)*(b-d))<<endl;
+
+}
 ```
 
