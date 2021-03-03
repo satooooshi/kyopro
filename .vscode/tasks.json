@@ -22,6 +22,35 @@
 				"isDefault": true
 			},
 			"detail": "コンパイラ: \"C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\gcc.exe\""
-		}
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: cpp.exe アクティブなファイルのビルド",
+			"command": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\cpp.exe",
+			"args": [
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "コンパイラ: \"C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\cpp.exe\""
+		},
+		{
+            "label": "sample",
+            "type": "shell",
+            "command": "g++",
+            "args": ["-g", "sample.cpp"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
 	]
 }

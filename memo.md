@@ -9,7 +9,15 @@ int main(){
     return 0;
 }
 
+
+
+
 ```cpp
+
+    for(char c='a'; c<='z'; c++){
+    
+    }
+
     // c[n][l]={0}; dame!!
     // ll c[i][j]{0}; dame !!
     // ll c[n][l]{};// init with 0
