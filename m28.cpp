@@ -28,7 +28,7 @@ ll maxa=-1;
 for(ll b=k-1;b<n;b++){ // Sigma A[a,b] == S[b+1]-S[a]
     ll a=b-(k-1);
     acc=s[b+1]-s[a];
-    cout<<"sb+1:"<<b+1<<", acc:"<<acc<<endl;
+    //cout<<"sb+1:"<<b+1<<", acc:"<<acc<<endl;
     if(maxs<acc){
         maxs=acc;
         maxa=a;

@@ -27,6 +27,7 @@ for (int i = 0; i < N; ++i) s[i+1] = s[i] + a[i];
 for (int i = 0; i < n+1; ++i) cout<<s[i]<<endl;
 
 // Sigma A[a,b] == S[b+1]-S[a]
+// Sigma A[left,right) == S[right]-S[left]
 
 // 区間 [left, right) の総和を求める
 int left, right;
