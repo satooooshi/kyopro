@@ -8,39 +8,34 @@ int main(){
     ll n;
     cin>>n;
     vector<ll>v(n,0);//0 to n-1
-    for(int i=0;i<n;i++){
+    vector<ll>be(100000+1000,0);
+    vector<ll>bo(100000+1000,0);
+    for(ll i=0;i<n;i++){
        cin>>v[i];
     }
-    vector<ll>o(n/2,0);
-    vector<ll>e(n/2,0);
-    for(ll i=0,j=0;i<n;i+=2,j++){
-        e[j]=v[i];
+
+    //cout<<"hello"<<endl;
+
+    
+    for(ll i=0;i<n;i+=2){
+        be[v[i]]++;
     }
-    for(ll i=1,j=0;i<n;i+=2,j++){
-        o[j]=v[i];
+    for(ll i=1;i<n;i+=2){
+        bo[v[i]]++;
     }
 
-    vector<ll>be(n+1,0);
-    vector<ll>bo(n+1,0);
-    for(ll i=0;i<n/2;i++){
-        be[e[i]]++;
+    ll emax=1,omax=1;
+    for(ll i=1;i<=100000+1000;i++){
+        //cout<<"e:"<<be[i];
+        if(be[i]>be[emax])emax=i;
     }
-    for(ll i=0;i<n/2;i++){
-        bo[o[i]]++;
-    }
-
-    ll emax=0,omax=0;
-    for(ll i=0;i<n/2;i++){
-       // cout<<"e:"<<e[i];
-        if(be[e[i]]>be[emax])emax=e[i];
-    }
-    for(ll i=0;i<n/2;i++){
+    for(ll i=1;i<=100000+1000;i++){
         //cout<<"o:"<<o[i];
-        if(bo[o[i]]>bo[omax])omax=o[i];
+        if(bo[i]>bo[omax])omax=i;
     }
 
     //cout<<emax<<":"<<omax<<endl;
-    if(omax==emax){
+    if( (omax==emax)&&(bo[omax]==n/2&&be[emax]==n/2)){
         cout<<n/2<<endl;
     }else{
         cout<<(n/2-be[emax])+(n/2-bo[omax])<<endl;

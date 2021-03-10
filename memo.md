@@ -133,5 +133,45 @@ int main(){
     cout<< std::fixed << std::setprecision(8) <<sqrt((a-c)*(a-c)+(b-d)*(b-d))<<endl;
 
 }
+
+
+// grid
+#include <bits/stdc++.h>
+using namespace std;
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+
+const vector<int> dx = {1, 0};
+const vector<int> dy = {0, 1};
+const long long INF = 1LL<<60;
+int H, W;
+vector<string> fi;
+
+long long solve() {
+    vector<vector<long long>> dp(H, vector<long long>(W, INF));
+    if(fi[0][0]=='#')dp[0][0]=1;
+    else dp[0][0]=0;
+
+    for(int y=0;y<H;y++){
+        for(int x=0;x<W;x++){
+            for(int i=0;i<2;i++){
+                int nx=x+dx[i],ny=y+dy[i];
+                if (ny<0 || ny>= H || nx<0 || nx>=W)continue;
+                int add = 0;
+                if (fi[ny][nx] == '#' && fi[y][x] == '.')add=1;
+                chmin(dp[ny][nx], dp[y][x] + add);
+            }
+        }
+    }
+    return dp[H-1][W-1];
+}
+
+int main() {
+    cin >> H >> W;
+    fi.resize(H);
+    for (int i = 0; i < H; ++i) cin >> fi[i];
+    cout << solve() << endl;
+}
 ```
 
