@@ -210,5 +210,40 @@ int main() {
     for (int i = 0; i < res.size(); ++i) cout << res[i] << " ";
     cout << endl;
 }
+
+// doubling, next[k][i], 2^k step ahead, 二進数展開、K回先の要素を知りたい
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAX = 20;
+int main() {
+    string S;
+    cin >> S;
+    int N = S.size();
+
+    // matrix next[k][i]
+    vector<vector<int>> next(MAX, vector<int>(N));
+    for (int i = 0; i < N; ++i) {
+        if (S[i] == 'L') next[0][i] = i-1;
+        else next[0][i] = i+1;
+    }
+    for (int d = 0; d+1 < MAX; ++d) {
+        for (int i = 0; i < N; ++i) next[d+1][i] = next[d][next[d][i]];
+    }
+
+    vector<int> res(N, 0);
+    int K = N*2;
+    for (int v = 0; v < N; ++v) {
+        int nv = v;
+        // 二進数展開
+        for (int d = 0; d < MAX; ++d) {
+            if (K & (1<<d)) nv = next[d][nv];
+        }
+        res[nv]++;
+    }
+    for (int v = 0; v < N; ++v) cout << res[v] << " ";
+    cout << endl;
+}
+
 ```
 
