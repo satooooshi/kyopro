@@ -14,10 +14,11 @@ int main(){
     // bggy!!S
 
     ll ans=1000000000+1;
-    for(int i=1;i<=max(x,y);i++){// A piza maisuu i wo kimeuti
-        ll r=x-i;
-        ll tot=i*a+r*2*c+(y-r)*b ;//((y-r)>0?(y-r):0)*b;
-        ans=min(tot,ans);
+    for(int i=0;i<=2*max(x,y);i++){// AB piza maisuu i mai wo kimeuti
+        ll ra=(x-i>0)?(x-i):0;
+        ll rb=(y-i>0)?(y-i):0;
+        ll t=i*c+ra*a+rb*b;
+        ans=min(ans,t);
     }
 
     cout<<ans<<endl;
