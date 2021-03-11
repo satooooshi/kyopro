@@ -2,6 +2,9 @@
 using namespace std;
 typedef long long ll;
 #define rep(i, n) for (ll i=0; i < n; i++)  // 0 ~ n-1
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
 
 int main(){
 
@@ -60,7 +63,7 @@ cout << s[right] - s[left] << endl;
     cout<<s<<endl;// need endl
 
     
-int calc_digit(long long N) {
+int calc_digitnum(long long N) {
     int res = 0;
     while (N) {
         ++res;
@@ -68,7 +71,7 @@ int calc_digit(long long N) {
     }
     return res;
 }
-int calc_digit(long long N) {
+int calc_digitsum(long long N) {
     int res = 0;
     while (N) {
         //cout<<N%10<<endl;
@@ -245,5 +248,43 @@ int main() {
     cout << endl;
 }
 
+// 約数列挙
+vector<long long> enum_divisors(long long N) {
+    vector<long long> res;
+    for (long long i = 1; i * i <= N; ++i) {
+        if (N % i == 0) {
+            res.push_back(i);
+            // 重複しないならば i の相方である N/i も push
+            if (N/i != i) res.push_back(N/i);
+        }
+    }
+    // 小さい順に並び替える
+    sort(res.begin(), res.end());
+    return res;
+}
+
+int main() {
+    long long N;
+    cin >> N;
+    const auto &res = enum_divisors(N);
+    for (int i = 0; i < res.size(); ++i) cout << res[i] << " ";
+    cout << endl;
+}
+
+
+//next_permutation
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    vector<int> v{ 1, 2, 3 }; //要素は昇順にソートしておく
+    
+    for( int i = 0; i < 6; ++i )
+    {
+        for( auto &x : v ){cout << x << " ";}cout << endl;
+        next_permutation( begin( v ), end( v ) ); //次の順列が生成される
+    }
+    return 0;
+}
 ```
 
