@@ -17,6 +17,14 @@ int main(){
 
 ```cpp
 
+//bit
+for(int bit=0;bit<(1<<n);bit++){
+    bool ok=true;
+    if ( y[i][j]==0 && (bit&(1<<)) ) ok=false;
+    if(!(bit&(1<<)))
+    if((~bit)&(1<<))
+}
+
 // ruisekiwa
 //-------------------------------------------
 int N; cin >> n; // 配列サイズ
@@ -288,3 +296,257 @@ int main()
 }
 ```
 
+
+
+```cpp
+// bfs queue 
+// https://qiita.com/drken/items/996d80bcae64649a6580
+#include <bits/stdc++.h>
+using namespace std;
+using Graph = vector<vector<int>>;
+
+int main() {
+    // 頂点数と辺数
+    int N, M; cin >> N >> M;
+
+    // グラフ入力受取 (ここでは無向グラフを想定)
+    Graph G(N);
+    for (int i = 0; i < M; ++i) {
+        int a, b;
+        cin >> a >> b;
+        G[a].push_back(b);
+        G[b].push_back(a);// undirected graph
+    }
+
+    // BFS のためのデータ構造
+    vector<int> dist(N, -1); // 全頂点を「未訪問」に初期化
+    queue<int> que;
+
+    // 初期条件 (頂点 0 を初期ノードとする)
+    dist[0] = 0;
+    que.push(0); // 0 を橙色頂点にする
+
+    // BFS 開始 (キューが空になるまで探索を行う)
+    while (!que.empty()) {
+        int v = que.front(); // キューから先頭頂点を取り出す
+        que.pop();
+
+        // v から辿れる頂点をすべて調べる
+        for (int nv : G[v]) {
+            if (dist[nv] != -1) continue; // すでに発見済みの頂点は探索しない
+
+            // 新たな白色頂点 nv について距離情報を更新してキューに追加する
+            dist[nv] = dist[v] + 1;
+            que.push(nv);
+        }
+    }
+
+    // 結果出力 (各頂点の頂点 0 からの距離を見る)
+    for (int v = 0; v < N; ++v) cout << v << ": " << dist[v] << endl;
+}
+
+// bfs with grid (rather than node)
+// grid repainting 
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define rep(i, n) for (ll i=0; i < n; i++)  // 0 ~ n-1
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+
+int main(){
+
+    int h,w;
+    cin>>h>>w;
+    vector<vector<char>>s(h);
+    vector<int>dist(w*h);
+    const vector<int> dx = {-1, 0, 1, 0};
+    const vector<int> dy = {0, -1, 0, 1};
+    int cw=0;
+    for(int i=0;i<h;i++){
+        for(int j=0;j<w;j++){
+            char x;
+            cin>>x;
+            s[i].push_back(x);
+            if(x=='.')cw++;
+        }
+    }
+
+    for(int i=0;i<h;i++){
+        for(int j=0;j<w;j++){
+            dist[i*w+j]=-1;// not visited
+        }
+    }
+
+    queue<int>q;
+    dist[0]=0;
+    q.push(0);
+    while(!q.empty()){
+        int v=q.front();
+        q.pop();
+        for(int i=0;i<4;i++){
+            int nx=v%w+dx[i];
+            int ny=v/w+dy[i];
+            int nv=ny*w+nx;
+            if(nx<0||nx>=w||ny<0||ny>=h)continue;
+            //if(s[ny][nx]=='#'){cout<<"skiped: "<<s[ny][nx]<<" ("<<nx<<","<<ny<<endl;continue;}
+            if(s[ny][nx]=='#')continue;
+            if(dist[nv]!=-1)continue;
+            dist[nv]=dist[v]+1;
+            //cout<<s[ny][nx]<<" ("<<nx<<","<<ny;
+            //cout<<"), d:"<<dist[nv]<<endl;
+            q.push(nv);
+        }
+    }
+
+    if(dist[(h-1)*w+(w-1)]==-1){
+        cout<<-1<<endl;
+    }else{
+        cout<<cw-(dist[(h-1)*w+(w-1)]+1)<<endl;
+    }
+    
+
+
+    return 0;
+}
+
+
+// dfs stack
+// https://algo-logic.info/dfs/
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int V, E;
+    cin >> V >> E;
+    int s, t;
+    cin >> s >> t;
+    vector<vector<int>> G(V);
+    for (int i = 0; i < E; i++) {
+        int a, b;
+        cin >> a >> b;
+        G[a].push_back({b});
+        // G[b].push_back({a});
+    }
+    vector<bool> seen(V, false);  // 既に見たことがある頂点か記録する
+    stack<int> st;
+    st.emplace(s);  // sから探索する
+    seen[s] = true;
+    while (st.size() != 0) {   // 深さ優先探索
+        int state = st.top();  // 現在の状態
+        st.pop();
+        for (auto next : G[state]) {
+            if (!seen[next]) {  // 未探索の時のみ行う
+                seen[next] = true;
+                st.emplace(next);  //次の状態をqueueへ格納
+            }
+        }
+    }
+    if (seen[t]) {
+        cout << "yes" << endl;
+    } else {
+        cout << "no" << endl;
+    }
+    return 0;
+}
+
+
+// tree if(nv==p)continue; with dfs, weighted-edge
+// acyclic
+// du+dv^2dw==du,v
+// #edges == #nodes-1
+// D-Ki
+
+// D-Even Relation
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+int main(){
+
+    int n;
+    cin>>n;
+    vector<vector<pair<int,ll>>>g(n); // g[from].push_back({to, weight(from,to)});
+    vector<ll>dist(n,-1);// -1 unvisited
+    for(int i=0;i<n-1;i++){
+        int u,v;
+        ll w;
+        cin>>u>>v>>w;
+        if(w&1)w=1;
+        else w=0;
+        g[u-1].push_back({v-1,w}); // zero based index
+        g[v-1].push_back({u-1,w});// undirected graph
+    }
+
+    stack<int>s;
+    s.push(0);
+    dist[0]=0;
+    while(!s.empty()){
+        int v=s.top();
+        s.pop();
+        for(auto nv:g[v]){
+            if(dist[nv.first]!=-1)continue;// nv.fist==v
+            dist[nv.first]=dist[v]+nv.second;// mark visited
+            s.push(nv.first);
+        }
+    }
+
+    for(int i=0;i<n;i++){
+        cout<<(dist[i]%2==0?0:1)<<endl;
+    }
+
+    return 0;
+}
+
+
+
+
+// binary search
+// https://drken1215.hatenablog.com/entry/2020/01/05/154700
+// 絶対に f(left)≤Xf(left)≤X を満たす left(0 とかで OK) 
+// 絶対に f(right)>Xf(right)>X を満たす rightright (1000000001 とかで OK)
+// leftleft は常に f(left)≤Xf(left)≤X を満たし続けながら、
+// rightright は常に f(right)>Xf(right)>X を満たし続けながら狭まりつづける
+// 結果, 一要素になるまでright-left==1狭まり続ける.
+// f(mid)<=X ( f(N)≤Xを満たす最大の正の整数N )
+// min's max
+// max's min
+
+// buy an integer
+#include <bits/stdc++.h>
+using namespace std;
+
+auto d(long long N){
+    long long res = 0;
+    while (N) ++res, N /= 10;
+    return res;
+}
+
+auto f(long long N, long long A, long long B, long long X) {
+    return A * N + B * d(N) > X;
+}
+
+int main() {
+    long long A, B, X;
+    cin >> A >> B >> X;
+    // binary search
+    long long left = 0, right = 1000000001;
+    while (right - left > 1) {
+        long long mid = (left + right) / 2;
+        if (f(mid, A, B, X)) right = mid;
+        else left = mid; // ( f(mid)≤Xを満たす最大の正の整数mid )
+    }
+    cout << left << endl;
+}
+
+
+
+// lower_bound(,,x) x 以上の一番左
+// upper_bound(,,x) xより大きい一番左
+// ll lower_bound(,,x)-a.begin() x未満（より小さい）の個数
+// ll n-upper_bound(,,x) xより大きい個数
+// ll cnt=upper-lower; xの個数
+// upper+cnt x以上の個数
+// lower+cnt x以下の個数
+```

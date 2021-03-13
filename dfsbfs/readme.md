@@ -11,3 +11,7 @@
 31　JOI 2012 予選 5 - イルミネーション　少し実装が重いですが、頑張れば解けます。
 32　AOJ 1166 - 迷図と命ず　実装が少し重いです。
 33　AtCoder Beginner Contest 088 D - Grid Repainting　これが解ければ、幅優先探索に慣れたと思って良いです。
+
+13.cpp bfs with grid
+14.cpp binary search
+15.cpp weighed graph(tree) #edges==#nodes-1 du,v=du+dv-2dw
