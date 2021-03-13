@@ -11,12 +11,10 @@ int main(){
     ll a,b,c,x,y;
     cin>>a>>b>>c>>x>>y;
 
-    // bggy!!S
-
     ll ans=1000000000+1;
     for(int i=0;i<=2*max(x,y);i++){// AB piza maisuu i mai wo kimeuti
-        ll ra=(x-i>0)?(x-i):0;
-        ll rb=(y-i>0)?(y-i):0;
+        ll ra=(x-i/2>0)?(x-i/2):0;
+        ll rb=(y-i/2>0)?(y-i/2):0;
         ll t=i*c+ra*a+rb*b;
         ans=min(ans,t);
     }
