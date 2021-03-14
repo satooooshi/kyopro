@@ -8,7 +8,32 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 
 int main(){
 
-    
+    int n,a,b;
+    cin>>n>>a>>b;
+    string s;
+    cin>>s;
+    int ca=0,cb=0;
+    for(int i=0;i<n;i++){
+        if(s[i]=='a'){
+            
+            if((ca+cb)<(a+b)){
+                cout<<"Yes"<<endl;
+                ca++;
+            }else{
+                cout<<"No"<<endl;
+            }
+
+        }else if(s[i]=='b'){
+            if((ca+cb)<(a+b)&&cb<b){
+                cout<<"Yes"<<endl;
+                cb++;
+            }else{
+                cout<<"No"<<endl;
+            }
+        }else{
+            cout<<"No"<<endl;
+        }
+    }
 
 
     return 0;
