@@ -1,5 +1,10 @@
 ```cpp
 
+// is_prime
+// enum_divisors
+// prime_factorize
+// oyler
+// erastothenes
 
 // 素数判定
 bool is_prime(long long N) {
