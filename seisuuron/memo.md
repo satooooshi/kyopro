@@ -111,6 +111,18 @@ void sieve(size_t max){
 }
 
 
+// gcd, lcm
+// a と b の最大公約数を返す関数
+long long gcd(long long a, long long b) {
+    if (b == 0) return a;
+    else return gcd(b, a % b);
+}
+
+long long lcm(long long a, long long b) {
+    return a / gcd(a, b) * b;
+}
+
+
 
 
 

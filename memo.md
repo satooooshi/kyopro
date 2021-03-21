@@ -17,6 +17,93 @@ int main(){
 
 ```cpp
 
+// shakutorihou 尺取り法
+/*
+長さ nn の正の整数列 a1,a2,…,ana1,a2,…,an と整数 xx が与えられる。整数列の連続する部分列で、その総和が xx 以下となるものを数え上げよ (実際の出題は QQ 個のクエリがあって各クエリごとに xx が与えられる)。
+*/
+using namespace std;
+
+int main() {
+    /* 入力受け取り */
+    int n, Q;
+    cin >> n >> Q;
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) cin >> a[i];
+
+    /* Q 回分のクエリを処理 */
+    for (int j = 0; j < Q; ++j) {
+        long long x; cin >> x; // 各クエリ x
+
+        /* 合計値 */
+        long long res = 0;
+
+        /* 区間の左端 left で場合分け */
+        int right = 0;     // 毎回 right を使い回すようにする
+        long long sum = 0; // sum も使い回す
+        for (int left = 0; left < n; ++left) {
+            /* sum に a[right] を加えても大丈夫なら right を動かす */
+            while (right < n && sum + a[right] <= x) {
+                sum += a[right];
+                ++right;
+            }
+
+            /* break した状態で right は条件を満たす最大 */
+            res += (right - left);
+
+            /* left をインクリメントする準備 */
+            if (right == left) ++right; // right が left に重なったら right も動かす
+            else sum -= a[left]; // left のみがインクリメントされるので sum から a[left] を引く
+        }
+
+        cout << res << endl;
+    }
+}
+
+/*
+長さ nn の正の整数列 a1,a2,…,ana1,a2,…,an と整数 xx が与えられる。整数列の連続する部分列で、その総和が xx 以上となるもののうち、最小の長さを求めよ (実際の出題は QQ 個のクエリがあって各クエリごとに xx が与えられ、条件を満たす区間がないときは 00 を出力)。
+*/
+using namespace std;
+
+int main() {
+    /* クエリ回数 */
+    int Q;
+    cin >> Q;
+
+    for (int query = 0; query < Q; ++query) {
+        /* 入力受け取り */
+        int n; cin >> n;
+        long long x; cin >> x;
+        vector<long long> a(n);
+        for (int i = 0; i < n; ++i) cin >> a[i];
+
+        /* 区間の長さの最小値 */
+        int res = n+1; // 上界を入れておく
+
+        /* 区間の左端 left で場合分け */
+        int right = 0;
+        long long sum = 0;
+        for (int left = 0; left < n; ++left) {
+            /* [left, right) の総和が x 以上となる最小の right を求める */
+            while (right < n && sum < x) {
+                sum += a[right];
+                ++right;
+            }
+
+            /* 更新 */
+            if (sum < x) break; // これ以上 left を進めてもダメ
+            res = min(res, right - left);
+
+            /* left をインクリメントする準備 */
+            if (right == left) ++right; // right が left に重なったら right も動かす
+            else sum -= a[left]; // left のみがインクリメントされるので sum から a[left] を引く
+        }
+
+        /* res = n+1 のときは解なし */
+        if (res < n+1) cout << res << endl;
+        else cout << 0 << endl;
+    }
+}
+
 //bit
 for(int bit=0;bit<(1<<n);bit++){
     bool ok=true;
@@ -46,6 +133,7 @@ cin >> left >> right;
 cout << s[right] - s[left] << endl;
 
 //--------------------------------------------
+// character
 
     for(char c='a'; c<='z'; c++){
     
@@ -549,4 +637,11 @@ int main() {
 // ll cnt=upper-lower; xの個数
 // upper+cnt x以上の個数
 // lower+cnt x以下の個数
+
+
+
+
+// bekkai kosuubunnpu 個数分布　ex. not so diverse
+// backet sort desc
+// kaku suuji ooi hou kara K shurui toru
 ```
