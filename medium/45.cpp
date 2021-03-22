@@ -1,3 +1,4 @@
+// C - Scc Puzzle
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -10,22 +11,25 @@ int main(){
 
     ll n,m;
     cin>>n>>m;
-
-    int cnt=0;
-    if(2*n<=m){
-        // use  all S and cc
-        cnt+=n;
-        m-=2*n;
-        // use cccc
-        cnt+=m/4;
-    }else{
-        // use cccc
-        cnt+=m/4;
-        m-=cnt*4;
-        // use some S and cc
-        cnt+=m/2;
+    ll cnt=0;
+    /*TLE
+    while(m-2>=0&&n-1>=0){
+        m-=2;
+        n-=1;
+        cnt++;
     }
+    cnt+=m/4;
     cout<<cnt<<endl;
+    */
+
+   if(2*n<=m){
+       cnt+=n;
+       m-=2*n;
+       cnt+=m/4;
+   }else{
+       cnt+=m/2;
+   }
+   cout<<cnt<<endl;
 
 
     return 0;
