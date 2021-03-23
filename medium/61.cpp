@@ -17,7 +17,7 @@ int main(){
     int n;
     cin>>s>>n;
     deque<char>dq;
-    for(int i=0;i<n;i++){
+    for(int i=0;i<s.length();i++){
         dq.push_back(s[i]);
     }
     int r=0;
