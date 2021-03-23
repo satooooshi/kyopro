@@ -10,19 +10,19 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 int main(){
     int n;
     cin>>n;
-    vector<ll>a,b;
+    vector<ll>x(n),y(n);
     for(int i=0;i<n;i++){
-        ll x;
-        cin>>x;
-        a.push_back(x);
-        b.push_back(x);
+        int a;
+        cin>>a;
+        x[i]=a;
+        y[i]=a;
     }
-    sort(b.begin(),b.end());
-    ll mid=b[n/2];
+    sort(y.begin(),y.end());
     for(int i=0;i<n;i++){
-        if(a[i]<b[mid])cout<<b[mid]<<endl;
-        else cout<<b[mid-1]<<endl;
+        if(x[i]<y[n/2])cout<<y[n/2]<<" ";
+        else cout<<y[n/2-1]<<" ";
     }
+    cout<<endl;
 
 
     return 0;
