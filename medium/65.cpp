@@ -28,6 +28,10 @@ int main(){
     ll l=lcm(n,m);
     bool ok=true;
     for(ll i=0;i<g;i++){
+        // ex. n6 m3 l6 g3
+        // S[6]==X"0",1,"2",3,"4",5
+        // T(3)==X"0","2","4"
+        // that is s[i*n/g]==t[i*m/g]
         if(s[i*n/g]!=t[i*m/g])ok=false;
     }
     if(ok)cout<<l<<endl;
