@@ -1,4 +1,4 @@
-// A - Sorted Arrays
+// A - Prefix and Suffix
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -11,22 +11,20 @@ int main(){
 
     int n;
     cin>>n;
-    vector<ll>a(n);
-    rep(i,n){
-        cin>>a[i];
+    string s,t;
+    cin>>s>>t;
+    int res=2*n;
+    for(int i=1;i<=n;i++){
+        int len=i;
+        int si=n-i;
+        if(s.substr(si)==s.substr(0,len)){
+            res=min(res,2*n+(n-si));
+            cout<<s.substr(si)<<","<<s.substr(0,len)<<", min:"<<res<<endl;
+        }
     }
 
-    int res=0; // count nods
-    int i=0;
-    for(;i<n-1;){ // i<n-1 -> i+1<n tonaru
-        if(a[i]<a[i+1])while(a[i]<a[i+1])i++;
-        else while(a[i]>a[i+1])i++;
-        res++;
-        i++;
-        // cout<<"i:"<<i<<endl;
-    }
-    if(i<=n-1)res++; // count seq with just last elem
     cout<<res<<endl;
+
 
     return 0;
 }
