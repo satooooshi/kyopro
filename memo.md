@@ -37,6 +37,16 @@ char lower(char c){
 ceil(N/mi)
 (N + mi - 1) / mi
 
+// int to char
+// v[i][j]='0'+cnt;
+
+
+// mod
+res=res*i%mod; // ok
+// !=
+res*=i%mod; // not ok
+
+
 // shakutorihou 尺取り法
 /*
 長さ nn の正の整数列 a1,a2,…,ana1,a2,…,an と整数 xx が与えられる。整数列の連続する部分列で、その総和が xx 以下となるものを数え上げよ (実際の出題は QQ 個のクエリがあって各クエリごとに xx が与えられる)。
@@ -472,6 +482,9 @@ int main(){
     vector<int>dist(w*h);
     const vector<int> dx = {-1, 0, 1, 0};
     const vector<int> dy = {0, -1, 0, 1};
+    //including naname
+    //int dy[8]={-1,0,1,0, -1,1,1,-1};
+    //int dx[8]={0,-1,0,1, -1,1,-1,1};
     int cw=0;
     for(int i=0;i<h;i++){
         for(int j=0;j<w;j++){
