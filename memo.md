@@ -16,6 +16,26 @@ int main(){
 
 
 ```cpp
+// A-Za-z
+// komoji -> oomoji
+char upper(char c){
+    if('a' <= c && c <= 'z'){
+        c = c - ('a' - 'A');//('a' - 'A'):32
+    }
+    return c;
+}
+// oomoji -> komoji
+char lower(char c){
+    if('A' <= c && c <= 'Z'){
+        c = c + ('a' - 'A');//+32
+    }
+    return c;
+}
+
+//round up
+// double ceil(double x);
+ceil(N/mi)
+(N + mi - 1) / mi
 
 // shakutorihou 尺取り法
 /*
@@ -639,9 +659,105 @@ int main() {
 // lower+cnt x以下の個数
 
 
+ // substitute this for backet sort for large backet
+    int n;
+    cin>>n;
+    map<ll,int>m;
+    rep(i,n){
+        int a;
+        cin>>a;
+        m[a]++;
+        if(m[a]>2)m[a]=2;
+    }
+    vector<pair<int,ll>>a;
+    for(auto it=m.begin();it!=m.end();it++){
+        if(it->second>=2)
+            a.push_back({it->second,it->first});
+    }
+    sort(a.begin(),a.end(),greater<pair<int,ll>>());
 
 
 // bekkai kosuubunnpu 個数分布　ex. not so diverse
 // backet sort desc
 // kaku suuji ooi hou kara K shurui toru
+
+
+// dijkstra C - Cat Snuke and a Voyage
+#include <bits/stdc++.h>
+using namespace std;
+struct Edge {
+    long long to;
+    long long cost;
+};
+using Graph = vector<vector<Edge>>;
+using P = pair<long, int>; // dist, node
+const long long INF = 1LL << 60;
+
+
+// 最短距離の経路復元
+/* dijkstra(G,s,dis,prev)
+    入力：グラフ G, 開始点 s, 距離を格納する dis, 最短経路の前の点を記録するprev
+    計算量：O(|E|log|V|)
+    副作用：dis, prevが書き換えられる
+*/
+void dijkstra(const Graph &G, int s, vector<long long> &dis, vector<int> &prev) {
+    int N = G.size();
+    dis.resize(N, INF);
+    prev.resize(N, -1); // 初期化
+    priority_queue<P, vector<P>, greater<P>> pq; 
+    dis[s] = 0;
+    pq.emplace(dis[s], s);
+    while (!pq.empty()) {
+        P p = pq.top();
+        pq.pop();
+        int v = p.second;
+        if (dis[v] < p.first) {
+            continue;
+        }
+        for (auto &e : G[v]) {
+            if (dis[e.to] > dis[v] + e.cost) {
+                dis[e.to] = dis[v] + e.cost;
+                prev[e.to] = v; // 頂点 v を通って e.to にたどり着いた
+                pq.emplace(dis[e.to], e.to);
+            }
+        }
+    }
+}
+
+/* get_path(prev, t)
+    入力：dijkstra で得た prev, ゴール t
+    出力： t への最短路のパス
+*/
+vector<int> get_path(const vector<int> &prev, int t) {
+    vector<int> path;
+    for (int cur = t; cur != -1; cur = prev[cur]) {
+        path.push_back(cur);
+    }
+    reverse(path.begin(), path.end()); // 逆順なのでひっくり返す
+    return path;
+}
+
+int main(){
+    int n,m;
+    cin>>n>>m;
+    Graph g(n);
+    vector<long long> dis;
+    vector<int> prev;
+    for(int i=0;i<m;i++){
+        int a,b;
+        cin>>a>>b;
+        a--;
+        b--;
+        g[a].push_back({b,1});
+        g[b].push_back({a,1});
+    }
+    dijkstra(g,0,dis,prev);
+    if (dis[n-1]==2) { // 期便を2つ使うことで, 島Nに行けるか調べたい
+        cout << "POSSIBLE" <<endl;
+    } else {
+        cout << "IMPOSSIBLE" << endl;
+    }
+
+    return 0;
+}
 ```
