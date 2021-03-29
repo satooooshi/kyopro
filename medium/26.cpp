@@ -19,27 +19,18 @@ int main(){
     }
 
     // [left,right]
-    ll l=0,i=1;
-    bool up=false;
-    ll cnt=0;
-    if(v[0]<=v[1])up=true;
-    while(i<n){
-        if(up)while(i<n&&v[i-1]<=v[i])i++;
-        else while(i<n&&v[i-1]>=v[i])i++;
+    ll res=0;
+    ll l=0;
+    for(int i=1;i<n;){
+        while(i<n&&v[i-1]==v[i])i++;
+        if(i<n&&v[i-1]<v[i])while(i<n&&v[i-1]<v[i])i++;
+        else while(i<n&&v[i-1]>v[i])i++;
         ll r=i-1;
-        cnt++;
-        cout<<"["<<l<<","<<r<<"], cnt:"<<cnt<<endl;
+        cout<<"["<<l<<","<<r<<"]"<<endl;
+        res++;
         l=i;
-        if(i+1<n){
-            if(v[i]<v[i+1])up=true;
-            else up=0;
-        }else{
-            break;
-        }
-
     }
-
-    cout<<cnt<<endl;
+    cout<<res<<endl;
 
 
 

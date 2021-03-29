@@ -1,4 +1,4 @@
-// A - Prefix and Suffix
+// C - Green Bin
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -9,21 +9,20 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 
 int main(){
 
-    ll n;
+    int n;
     cin>>n;
-    string s,t;
-    cin>>s>>t;
-    ll res=2*n;
-    for(ll len=1;len<=n;len++){
-        ll si=n-len;
-        if(s.substr(si)==t.substr(0,len)){
-            //cout<<s.substr(si)<<","<<t.substr(0,len)<<", "<<2*n<<"-"<<len<<"="<<2*n-len<<endl;
-            res=min(res,2*n-len);
-        }
+    map<string,int>m;
+    ll res=0;
+    rep(i,n){
+        string s;
+        cin>>s;
+        sort(s.begin(),s.end());
+        res+=m[s];
+        m[s]++;
     }
-
     cout<<res<<endl;
 
 
     return 0;
 }
+

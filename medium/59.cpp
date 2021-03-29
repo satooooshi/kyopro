@@ -1,4 +1,3 @@
-// A - Prefix and Suffix
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -9,19 +8,25 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 
 int main(){
 
-    ll n;
+    int n;
     cin>>n;
-    string s,t;
-    cin>>s>>t;
-    ll res=2*n;
-    for(ll len=1;len<=n;len++){
-        ll si=n-len;
-        if(s.substr(si)==t.substr(0,len)){
-            //cout<<s.substr(si)<<","<<t.substr(0,len)<<", "<<2*n<<"-"<<len<<"="<<2*n-len<<endl;
-            res=min(res,2*n-len);
-        }
+    vector<int>p;
+    rep(i,n){
+        int x;
+        cin>>x;
+        p.push_back(x);
     }
 
+    ll res=0;
+    for(int i=0;i<n;i++)
+    {
+        ll l=i;
+        while(p[i]==i+1)i++;
+        ll r=i;
+        ll cnt=r-l;
+        //cout<<"["<<l<<","<<r<<"), "<<cnt<<" ko"<<endl;
+        res+=(cnt+1)/2;// round up to multiple of 2
+    }
     cout<<res<<endl;
 
 

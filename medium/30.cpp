@@ -1,4 +1,4 @@
-// A - Prefix and Suffix
+// C - Flip,Flip, and Flip......
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
@@ -9,17 +9,19 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 
 int main(){
 
-    ll n;
-    cin>>n;
-    string s,t;
-    cin>>s>>t;
-    ll res=2*n;
-    for(ll len=1;len<=n;len++){
-        ll si=n-len;
-        if(s.substr(si)==t.substr(0,len)){
-            //cout<<s.substr(si)<<","<<t.substr(0,len)<<", "<<2*n<<"-"<<len<<"="<<2*n-len<<endl;
-            res=min(res,2*n-len);
-        }
+    ll n,m;
+    cin>>n>>m;
+    ll res=-1;
+    if(n==1&&m>1){
+        res=(n-2)*3+2*2;
+    }else if(m==1&&n>1){
+        res=(m-2)*3+2*2;
+    }else if(n==2&&m>2){
+        res=(n-2)*m*6+4*4;
+    }else if(m==2&&n>2){
+        res=(m-2)*n*6+4*4;
+    }else{
+        res=(2*(n-2)+2*(m-2))*6+4*4+(m*n-2*(n-2)-2*(m-2)-4)*9;
     }
 
     cout<<res<<endl;
