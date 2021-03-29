@@ -2,38 +2,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-#define rep(i, n) for (ll i=0; i < n; i++)  // 0 ~ n-1
-template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
 
-
-int main(){
-
-    ll n;
-    cin>>n;
-    vector<ll>v;
-    rep(i,n){
-        ll x;
-        cin>>x;
-        v.push_back(x);
-    }
+int main() {
+    int N; cin >> N;
+    vector<int> A(N);
+    for (int i = 0; i < N; ++i) cin >> A[i];
 
     // [left,right]
-    ll res=0;
-    ll l=0;
-    for(int i=1;i<n;){
-        while(i<n&&v[i-1]==v[i])i++;
-        if(i<n&&v[i-1]<v[i])while(i<n&&v[i-1]<v[i])i++;
-        else while(i<n&&v[i-1]>v[i])i++;
-        ll r=i-1;
-        cout<<"["<<l<<","<<r<<"]"<<endl;
-        res++;
-        l=i;
+    int res = 0;
+    for (int i = 0; i < N; ++i) { // also incre here
+        ll l=i;
+        // cout<<"["<<l<<",";
+        // same を抜ける
+        while (i+1 < N && A[i] == A[i+1]) ++i;
+
+        // up
+        if (i+1 < N && A[i] < A[i+1]) {
+            while (i+1 < N && A[i] <= A[i+1]) ++i;
+        }
+        // down
+        else if (i+1 < N && A[i] > A[i+1]) {
+            while (i+1 < N && A[i] >= A[i+1]) ++i;
+        }
+        ll r=i;
+        //cout<<r<<"]"<<endl;
+        ++res;
     }
-    cout<<res<<endl;
-
-
-
-
-    return 0;
+    cout << res << endl;
 }
