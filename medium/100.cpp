@@ -8,6 +8,8 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 const ll mod=1000000000+7;
 
 
+// priority_queue<pair<int,int>>q; // {cnt_appear,num}
+
 int main(){
 
     int n;
