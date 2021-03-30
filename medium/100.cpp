@@ -12,23 +12,65 @@ int main(){
 
     int n;
     cin>>n;
-    vector<pair<int,int>>b(100000+1);//{cnt,num} 1 based indexing, backet
+    map<int,int>me,mo;
     rep(i,n){
        int x;
        cin>>x;
-       b[x].first+=1;
-       b[x].second=x;
+       if(i%2)mo[x]++;
+       else me[x]++;
     }
-    sort(b.begin(),b.end(),greater<pair<int,int>>());
-    //for(auto p:b){if(p.first){cout<<"["<<p.first<<","<<p.second<<"], ";}}cout<<endl;
+    // max count
+    int mxo=-1,o=-1,mxe=-1,e=-1;
+    for(auto p:mo){
+        if(mxo<p.second){
+            mxo=p.second;
+            o=p.first;
+        }
+    }
+    for(auto p:me){
+        if(mxe<p.second){
+            mxe=p.second;
+            e=p.first;
+        }
+    }
+    // second max count
+    int smxo=-1,so=-1,smxe=-1,se=-1;
+    for(auto p:mo){
+        if(p.first==o)continue;
+        if(smxo<p.second){
+            smxo=p.second;
+            so=p.first;
+        }
+    }
+    for(auto p:me){
+        if(p.first==e)continue;
+        if(smxe<p.second){
+            smxe=p.second;
+            se=p.first;
+        }
+    }
+
+    //cout<<"o:"<<o<<" "<<mxo<<" ko, e:"<<e<<" "<<mxe<<" ko"<<endl;
+    //cout<<"so:"<<so<<" "<<smxo<<" ko, se:"<<se<<" "<<smxe<<" ko"<<endl;
+
+
+    if(o==e){
+        // all same num ex. all 1s
+        if(mxo==mxe){
+            cout<<n/2<<endl;
+            return 0;
+        }
+        if(mxo<mxe){
+            cout<<n-mxe-smxo<<endl;
+        }else{
+            cout<<n-mxo-smxe<<endl;
+        }
+    }
+    else
+    {
+        cout<<n-mxo-mxe<<endl;
+    }
     
-    ll cnt=0;
-    if(b[0].first<n/2){
-        cnt=(n/2-b[0].first)+(n/2-b[1].first);
-    }else{
-        cnt=n/2-b[1].first;
-    }
-    cout<<cnt<<endl;
 
     return 0;
 }
