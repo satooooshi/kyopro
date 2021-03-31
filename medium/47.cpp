@@ -9,6 +9,20 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 const ll mod=1000000000+7;
 
 
+
+int main() {
+    int N, P;
+    cin >> N >> P;
+    int m = 0;
+    for (int i = 0; i < N; ++i) {
+        int A; cin >> A;
+        if (A % 2 == 1) ++m;
+    }
+    if (m == 0) cout << (P == 0 ? (1LL<<N) : 0) << endl;
+    else cout << (1LL<<(N-1)) << endl;
+}
+
+/* buggy!!
 const int MAX = 510000;
 const int MOD = 1000000007;
 
@@ -66,7 +80,7 @@ int main(){
 
     return 0;
 }
-
+*/
 
 /*
 // bit not enough need N:50 bits!!
