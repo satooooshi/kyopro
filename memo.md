@@ -172,7 +172,7 @@ int main() {
     }
 }
 
-//bit
+//bitES
 for(int bit=0;bit<(1<<n);bit++){
     bool ok=true;
     if ( y[i][j]==0 && (bit&(1<<)) ) ok=false;
