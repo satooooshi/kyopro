@@ -12,9 +12,9 @@ int main(){
 
     string s;
     cin>>s;
-    vector<pair<int,int>>v;
-    int a=0, b=0;// #<s, #>s
-    for(int i=1;i<s.length();i++){
+    vector<pair<ll,ll>>v;
+    ll a=0, b=0;// #<s, #>s
+    for(ll i=1;i<s.length();i++){
         if(s[i-1]=='>')b++;
         else a++;
         if(s[i-1]=='>'&&s[i]=='<'){
@@ -31,8 +31,8 @@ int main(){
 
     ll res=0;
     for(auto p:v){
-        int a=p.first;
-        int b=p.second;
+        ll a=p.first;
+        ll b=p.second;
         chmax(a,b);
         //cout<<"SigmaA:"<<a*(1+a)/2<<", SigmaB:"<<b*(b-1)/2<<endl;
         res+=a*(1+a)/2+b*(b-1)/2;
