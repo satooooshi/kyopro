@@ -18,61 +18,40 @@ int main(){
     rep(i,n){
        int x;
        cin>>x;
-       if(i%2)mo[x]++;
+       if(i&1)mo[x]++;
        else me[x]++;
     }
-    // max count
-    int mxo=-1,o=-1,mxe=-1,e=-1;
-    for(auto p:mo){
-        if(mxo<p.second){
-            mxo=p.second;
-            o=p.first;
-        }
-    }
+
+    vector<pair<int,int>>ve,vo;// {cnt_appeared, num}
     for(auto p:me){
-        if(mxe<p.second){
-            mxe=p.second;
-            e=p.first;
-        }
+        ve.push_back({p.second,p.first});
     }
-    // second max count
-    int smxo=-1,so=-1,smxe=-1,se=-1;
     for(auto p:mo){
-        if(p.first==o)continue;
-        if(smxo<p.second){
-            smxo=p.second;
-            so=p.first;
-        }
-    }
-    for(auto p:me){
-        if(p.first==e)continue;
-        if(smxe<p.second){
-            smxe=p.second;
-            se=p.first;
-        }
+        vo.push_back({p.second,p.first});
     }
 
-    //cout<<"o:"<<o<<" "<<mxo<<" ko, e:"<<e<<" "<<mxe<<" ko"<<endl;
-    //cout<<"so:"<<so<<" "<<smxo<<" ko, se:"<<se<<" "<<smxe<<" ko"<<endl;
+    sort(ve.begin(),ve.end(),greater<pair<int,int>>());
+    sort(vo.begin(),vo.end(),greater<pair<int,int>>());
 
+    ll res=-1;
+    if(ve[0].first==n/2&&vo[0].first==n/2
+        && ve[0].second==vo[0].second){ // case3
+            res=n/2;
+    }else if(ve[0].second!=vo[0].second){ // case 2
+        res=n/2-ve[0].first+n/2-vo[0].first;
+    }else if(ve[0].second==vo[0].second
+              && ve[0].first!=vo[0].first){ 
+        if(ve[0].first<vo[0].first){ // ex. 33332 33344
+            res=n/2-vo[0].first+n/2-ve[1].first;
+        }else{ // ex. 33344 33332 
+            res=n/2-vo[1].first+n/2-ve[0].first;
+        }
+    }else{
+        
+    }
 
-    if(o==e){
-        // all same num ex. all 1s
-        if(mxo==mxe){
-            cout<<n/2<<endl;
-            return 0;
-        }
-        if(mxo<mxe){
-            cout<<n-mxe-smxo<<endl;
-        }else{
-            cout<<n-mxo-smxe<<endl;
-        }
-    }
-    else
-    {
-        cout<<n-mxo-mxe<<endl;
-    }
+    cout<<res<<endl;
+
     
-
     return 0;
 }
