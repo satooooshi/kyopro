@@ -10,7 +10,6 @@ const ll mod=1000000000+7;
 
 int main(){
 
-
     return 0;
 }
 
@@ -346,6 +345,7 @@ int main() {
 
 
 // run-length 
+// 1.
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -378,6 +378,20 @@ int main() {
     for (int i = 0; i < res.size(); ++i) cout << res[i] << " ";
     cout << endl;
 }
+//2.
+    string s;
+    cin>>s;
+    int n=s.length();
+    vector<int>num(26,0);
+    vector<pair<int,int>>a; // {left, cnt}
+    int l=0;
+    for(int i=1;i<n;i++){
+        while(s[i-1]==s[i])i++;
+        int r=i;
+        cout<<s[r-1]<<", left:"<<l<<", cnt:"<<r-l<<endl;
+        a.push_back({l,r-l});
+        l=r;
+    }
 
 // doubling, next[k][i], 2^k step ahead, 二進数展開、K回先の要素を知りたい
 #include <bits/stdc++.h>
