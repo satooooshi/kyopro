@@ -18,6 +18,19 @@ int main(){
 
 ```cpp
 
+// atol ok
+// dont use ltoa, use snprintf instead
+for(ll i=1;i*i<=n;i++){
+        char buf[sizeof(long)*8+1];//max # digits 12, 10^12
+        //string s=ltoa(i,buf,10);//itoa is not ansi C standard and you should probably avoid it.
+        snprintf(buf, sizeof(buf), "%ld", i);
+        string s=buf;
+        s+=s;
+        if(atol(s.c_str())<=n){
+            cout<<s<<endl;
+            cnt++;
+        }
+    }
 
 // nCk
 
