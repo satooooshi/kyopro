@@ -17,6 +17,16 @@ int main(){
 
 
 ```cpp
+// https://drken1215.hatenablog.com/entry/2020/11/22/224600
+// grid, parity(itimatu)
+// manhattan kyori
+// 市松模様(a+b+c+d)%2==0
+p=|c−a|、q=|d−b| 
+1手以内で行ける場合は予め除外した上で、
+2手で行ける場合を列挙していこう。
+p+q が偶数(e+e, o+o becomes even)のとき (スタートpと同じ色のマス)
+p+q≤6 のとき (1 回の移動で p+q を 3 増やせるので)
+|p−q|≤3 のとき (最初に (p,p) まで移動して、そこから 1 手で行ける)
 
 // atol ok
 // dont use ltoa, use snprintf instead
