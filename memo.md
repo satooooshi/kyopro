@@ -17,8 +17,12 @@ int main(){
 
 
 ```cpp
+
+// grid
+// sigma
+
 // https://drken1215.hatenablog.com/entry/2020/11/22/224600
-// grid, parity(itimatu)
+// grid, parity(itimatu)(x+y の値は交互にe,o,e,o,..)
 // manhattan kyori
 // 市松模様(a+b+c+d)%2==0
 p=|c−a|、q=|d−b| 
@@ -43,7 +47,6 @@ for(ll i=1;i*i<=n;i++){
     }
 
 // nCk
-
 const int MAX = 510000;
 const int MOD = 1000000007;
 
@@ -61,7 +64,7 @@ void COMinit() {
     }
 }
 
-// 二項係数計算
+// 二項係数計算 formal ver. 
 long long COM(int n, int k){
     if (n < k) return 0;
     if (n < 0 || k < 0) return 0;
@@ -74,6 +77,26 @@ int main() {
 
     // 計算例
     cout << COM(100000, 50000) << endl;
+}
+//nCk simple ver.
+//「連続する n 個の自然数の積は、かならず n! で割り切れる」
+// https://drken1215.hatenablog.com/entry/2020/12/14/015500
+#include <bits/stdc++.h>
+using namespace std;
+// choose 11 slits of 13 slits
+// ex. l==14
+// l-1C11
+// 13*12*11.../1*2*3  can be divisible!!
+//「連続する n 個の自然数の積は、かならず n! で割り切れる」
+int main() {
+    long long L;
+    cin >> L;
+    long long res = 1;
+    for (int i = 1; i <= 11; ++i) {
+        res *= L - i;
+        res /= i;
+    }
+    cout << res << endl;
 }
 
 
