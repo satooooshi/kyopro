@@ -226,7 +226,22 @@ for(int bit=0;bit<(1<<n);bit++){
     if((~bit)&(1<<))
 }
 
-// ruisekiwa
+// ruisekiwa, a[left,right)==b[right]-b[left]
+    int n;
+    cin>>n;
+    vector<ll>a(n),b(n+1);
+    rep(i,n){
+        cin>>a[i];
+    }
+    b[0]=0;
+    for(int i=1;i<n+1;i++){
+        b[i]=b[i-1]+a[i-1];
+    }
+    //for(auto x:b){cout<<x<<" ";}cout<<endl;
+    // a[left,right)==b[right]-b[left]
+    for(int i=0;i<n;i++){cout<<"a["<<i<<","<<n-1<<"]:"<<b[n]-b[i]<<endl;}
+
+
 //-------------------------------------------
 int N; cin >> n; // 配列サイズ
 vector<int> a(n);
