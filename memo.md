@@ -17,9 +17,7 @@ int main(){
 
 
 ```cpp
-
-// grid
-// sigma
+// sigma, sum of difference, difference--sort, sigma-transform"
 
 // https://drken1215.hatenablog.com/entry/2020/11/22/224600
 // grid, parity(itimatu)(x+y の値は交互にe,o,e,o,..)
