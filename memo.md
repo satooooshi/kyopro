@@ -14,9 +14,23 @@ int main(){
 }
 
 
+愚直に計算すると実行時間制限に間に合わない
+計算途中でオーバーフローする
+割り算や平方根の計算時に小数の誤差が発生する
+コーナーケースが存在する（0除算など）
+
+
 
 
 ```cpp
+//ncr
+ll _nCr(ll n, ll r){ 
+   if( n<r || n<0 || r<0 ){ return 0; } 
+   ll ans=1; if(r>(n-r)){ r=n-r; } 
+   for(ll i=1;i<=r;i++){ ans*=(n+1-i); ans/=i; } 
+   return ans; 
+}
+
 // sigma, sum of difference, difference--sort, sigma-transform"
 
 // https://drken1215.hatenablog.com/entry/2020/11/22/224600
@@ -886,3 +900,9 @@ int main(){
     return 0;
 }
 ```
+
+
+
+bowls and dishes　k人の置き方の全探索
+Alcoholic X100 で少数から整数へ
+Mandarin Orange mn=min(mn,v[r]);// [l,r]でminを逐一更新, *min_element//[l,r)は遅い
