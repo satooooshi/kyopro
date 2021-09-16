@@ -1,0 +1,566 @@
+g++-10
+./a.out < ~/Downloads/test_11.txt
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+int main() {
+    string s,t;
+    cin>>s>>t;
+    if(s<t)cout<<"Yes"<<endl;
+    else cout<<"no"<<endl;
+
+    return 0;
+}
+```
+
+
+```cpp
+// int, 32bits(msb is signed bit), 2^30,10^9
+// long, 64bits(..),2^60,10^18
+```
+
+
+casting 小数点以下が切り捨て
+```cpp
+    int a,b;
+    cin>>a>>b;
+    double c=(a-b)/3.0+b;
+    //double c=(double)(a-b)/3+b;
+    cout<<c<<endl;
+
+    // 小数点での計算を排除
+    included=108*n/100;
+
+    // explicit casting vs. implicit casting
+    cout << A * B / 100.0 << '\n';
+    cout << ((double) (A * B)) / 100 << '\n';
+
+    //1.21925e+07 と出力されてしまいます。std::fixed や std::setprecision を用いることで正確な表記になります。
+    cout << fixed << setprecision(2);
+    cout << A * B / 100.0 << '\n';
+
+```
+
+```cpp
+// for-loop upper limit, answer upper limit、答えの上限を見積もることは非常に重要です
+
+B-Savings
+https://atcoder.jp/contests/abc206/editorial/2095
+1000 日目以降は少なくとも毎日 1000 円以上貯金額が増え続けることが分かります。なので、このペースで 10^9円に到達するのは、どれだけ遅くとも 10^6+1000 (== 10^6) 日後であることがわかります。(10^6 * 10^3 == 10^9) (1000yen * 10^6niti --> over 10^9 yen in total at te end )
+
+
+A+Bx≤D×Cx を満たすには
+⇔A/(CD−B) ≤ x　　つまりxがこれ以上（xが最小１：cdーb＝＝Aからxが最大A以下CDーb＝＝１）である時に満たれ始めるA/(CD−B) ＝＝ x(そのような x の最小値)！！
+明らかに、CD−B が非正であるなら高橋くんの目標は達成されません。そうでない場合、x は  
+CD−B / A
+​の切り上げとなります。CD−B は正整数ですから、x の値は A 以下となります。
+
+故に必要な操作回数の最小値が A 以下になることが示されました。このように、答えの上限を見積もることは非常に重要です。
+```
+https://atcoder.jp/contests/abc211/editorial/2285
+
+主客転倒）
+UnionFind
+今回の問題はすべての頂点間に対する処理になるので、すべての頂点間の列挙だけでO(n2)となる。
+愚直にやっていくと、
+
+すべての頂点間の組み合わせについて f(i,j) の総和
+
+が答えになる。
+だが、ここで役立つ条件としてf(i,j)は重みの種類だけパターンがある。
+つまり、f(i,j)を全探索することは可能であるということである。
+https://blog.hamayanhamayan.com/entry/2021/08/15/034729
+
+
+配列「全体に何かする」という問題は割と出るクエリ問題であり、その場合にoffset的なものを使って高速化する
+Querying Multiset [AtCoder Beginner Contest 212 D]
+
+
+while( state of next op is satisfied ?? ex. cnt*2<n)
+https://atcoder.jp/contests/abc216/tasks/abc216_c
+
+216c many balls 後退解析風
+
+topological sort to neighbot vector
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Edge {
+    int to;
+};
+using Graph = vector<vector<Edge>>;
+/* topo_sort(G): グラフG をトポロジカルソート
+    返り値: トポロジカルソートされた頂点番号
+    計算量: O(|E|+|V|)
+ */
+vector<int> topo_sort(const Graph &G) {  // bfs
+    vector<int> ans;
+    int n = (int)G.size();
+    vector<int> ind(n);            // ind[i]: 頂点iに入る辺の数(次数)
+    for (int i = 0; i < n; i++) {  // 次数を数えておく
+        for (auto e : G[i]) {
+            ind[e.to]++;
+        }
+    }
+    queue<int> que;
+    for (int i = 0; i < n; i++) {  // 次数が0の点をキューに入れる
+        if (ind[i] == 0) {
+            que.push(i);
+        }
+    }
+    while (!que.empty()) {  // 幅優先探索
+        int now = que.front();
+        ans.push_back(now);
+        que.pop();
+        for (auto e : G[now]) {
+            ind[e.to]--;
+            if (ind[e.to] == 0) {
+                que.push(e.to);
+            }
+        }
+    }
+    return ans;
+}
+
+int main() {
+    int n,m;cin >> n >> m;
+    Graph g(n);
+    for (int i = 0; i < m; i++) {
+        int k,pre = -1;cin >> k;
+        for (int j = 0; j < k; j++) {
+            int a;cin >> a;a--;
+            if (pre != -1) g[pre][a];//g.add_edge(pre,a);
+            if (pre == a) { // exist loop, cannot sorttopologically
+                puts("No");
+                return 0;
+            }
+            pre = a;
+        }
+    }
+
+
+    auto v = topo_sort(g);
+    if (v.size() == n) puts("Yes");
+    else puts("No");
+    return 0;
+}
+```
+
+
+
+map is automatically ordered by its key (left-side )
+https://cpprefjp.github.io/reference/map/map/begin.html
+```cpp
+int main()
+{
+  map<int, char> m;
+  for( auto i = m.begin(); i != m.end() ; ++i ) {
+      std::cout << i->first << " " << i->second << "\n";
+  }
+
+  return 0;
+}
+```
+
+
+```cpp
+// culmulative sum cusum
+int main(){
+    int n; cin >> n; // 配列サイズ
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) cin >> a[i]; // a の入力
+
+    // 累積和
+    vector<int> s(n+1, 0); // s[0] = 0 になる
+    for (int i = 0; i < n; ++i) s[i+1] = s[i] + a[i];
+
+    // 区間 [left, right) の総和を求める
+    int left, right;
+    cin >> left >> right;
+    cout << s[right] - s[left] << endl;
+
+    return 0;
+}
+```
+
+
+```cpp
+// zaatu
+
+
+```
+
+
+```cpp
+// union-find, kaibun index
+
+// union-find
+//---------------------------------------------------------------------------------------------------
+struct UnionFind {
+	using T = int;
+	const T def = 0;
+	T f(T a, T b) { return a + b; }
+	//==========================================
+    vector<int> par; 
+	vector<T> value;
+    UnionFind() {}
+    UnionFind(int NV) { init(NV); }// #nodes NV, and node numbers be in [0,NV)
+	void init(int NV) { par.clear(); rep(i, 0, NV) par.push_back(i); value.resize(NV, 1); }
+    void reset() { rep(i, 0, par.size()) par[i] = i; }
+	int operator[](int x) {
+		if (par[x] == x) return x;
+		else {
+			int res = operator[](par[x]);
+			if (res != par[x]) {
+				value[res] = f(value[res], value[par[x]]);
+				value[par[x]] = def;
+			}
+			return par[x] = res;
+		}
+	}
+	// uf(x,y)->y
+    void operator()(int x, int y) {
+		x = operator[](x); y = operator[](y); 
+		if (x != y) {
+			value[y] += value[par[x]];
+			value[par[x]] = def;
+			par[x] = y;
+		}
+	}
+    // # nodes connected in this union
+	T getValues(int x) { return value[operator[](x)]; };
+
+};
+//---------------------------------------------------------------------------------------------------
+int main() {
+    int N, A[201010]; // 2*10^5 == 201010
+	cin >> N;
+	rep(i, 0, N) cin >> A[i];
+ 
+	UnionFind uf(201010); // node numbers be in [0,201010)
+	rep(i, 0, N / 2) uf(A[i], A[N - 1 - i]);
+ 
+	int ans = 0;
+	rep(i, 0, 201010) if (uf[i] == i) ans += uf.getValues(i) - 1;
+	cout << ans << endl;
+    return 0;
+}
+
+```
+
+
+```cpp
+priority_queue<int>q; // desc
+priority_queue<int, vector<int>, greater<int> >q; // ascending order
+
+template<typename T> using min_priority_queue = priority_queue<T, vector<T>, greater<T>>;
+min_priority_queue<ll> que;
+
+```
+
+```cpp
+
+// imos O(x-axis length) vs. 包含 O(n^6)
+
+//imos, overlappingの個数を数える　
+for (int i = 0; i < T; i++) table[i] = 0;
+for (int i = 0; i < C; i++) {
+  table[S[i]]++;  // 入店処理: カウントを 1 増やす
+  table[E[i]]--;  // 出店処理: カウントを 1 減らす
+}
+// シミュレート
+for (int i = 0; i < T; i++) {
+  if (0 < i) table[i] += table[i - 1];
+}
+// 最大値を調べる
+M = 0;
+for (int i = 0; i < T; i++) {
+  if (M < table[i]) M = table[i];
+}
+
+//包含, overlappingの区間数を数える->es
+        int AA = max(A[i], A[j]);
+        int BB = min(B[i], B[j]);
+        if (AA < BB) ans++;
+包含しているならカウントしていけばいい。
+[a,b)と[c,d)を合成した区間は[max(a,c), min(b,d))となるので、このルールで合成して、要素が存在する、つまり、if(max(a,c)< min(b,d)) , or if(!(r[i]<=l[j] or r[j]<=l[i]))
+
+
+
+```cpp
+// lower_bound after sorting by asc, 
+//sentinel, auto idx =lower_bound() - a.begin()
+// auto idx=lower_bound(dp.begin(),dp.end(),x)-dp.begin();
+
+// abc212C - Min Difference
+int main() {
+
+    int n,m;cin>>n>>m;
+    vector<int>a(n),b(m);
+    for(int i=0;i<n;i++)cin>>a[i];
+    for(int j=0;j<m;j++)cin>>b[j];
+
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+
+    ll res=infl;
+    for(int i=0;i<n;i++){
+        auto idx=lower_bound(b.begin(),b.end(),a[i])-b.begin();
+        if(idx<m){
+            res=min(res,(ll)abs(a[i]-b[idx]));
+        }
+        if(idx-1>=0){
+            res=min(res,(ll)abs(a[i]-b[idx-1]));
+        }
+    }
+
+    cout<<res<<endl;
+
+    
+
+    return 0;
+}
+```
+
+
+```cpp
+// bfs,queue, bq, when edge weight==1, can find shortest path, 
+// node# 0-indexed 
+
+using namespace std;
+using Graph = vector<vector<int>>;
+
+int main() {
+    // 頂点数と辺数
+    int N, M; cin >> N >> M;
+
+    // グラフ入力受取 (ここでは無向グラフを想定)
+    Graph G(N);
+    for (int i = 0; i < M; ++i) {
+        int a, b;
+        cin >> a >> b;
+        G[a].push_back(b);
+        G[b].push_back(a);
+    }
+
+    // BFS のためのデータ構造
+    vector<int> dist(N, -1); // 全頂点を「未訪問」に初期化
+    queue<int> que;
+
+    // 初期条件 (頂点 0 を初期ノードとする)
+    dist[0] = 0;
+    que.push(0); // 0 を橙色頂点にする
+
+    // BFS 開始 (キューが空になるまで探索を行う)
+    while (!que.empty()) {
+        int v = que.front(); // キューから先頭頂点を取り出す
+        que.pop();
+
+        // v から辿れる頂点をすべて調べる
+        for (int nv : G[v]) {
+            if (dist[nv] != -1) continue; // すでに発見済みの頂点は探索しない
+
+            // 新たな白色頂点 nv について距離情報を更新してキューに追加する
+            dist[nv] = dist[v] + 1;
+            que.push(nv);
+        }
+    }
+
+    // 結果出力 (各頂点の頂点 0 からの距離を見る)
+    for (int v = 0; v < N; ++v) cout << v << ": " << dist[v] << endl;
+}
+
+```
+
+```cpp
+//dfs, 隣接vector(頂点数多くて、変数が比較的少ない時)・再帰関数
+// ATTENTION!! node# 0-indexed
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// 深さ優先探索 dfs
+using Graph = vector<vector<int>>;
+vector<bool> seen;  // 既に見たことがある頂点か記録
+void dfs(const Graph &G, int v) {
+    seen[v] = true;
+    for (auto next : G[v]) {
+        if (!seen[next]) {  // 訪問済みでなければ探索
+            dfs(G, next);
+        }
+    }
+    //res.push_back(v); // pushes from leaf to the root
+}
+int main() {
+    int V, E;
+    cin >> V >> E;
+    int s, t;
+    cin >> s >> t;
+    Graph G(V);//0-indexed
+    for (int i = 0; i < E; i++) {
+        int a, b;
+        cin >> a >> b;
+        G[a].push_back({b});
+        // G[b].push_back({a});
+    }
+    seen.assign(V, false);  // 初期化
+    dfs(G, s);
+    if (seen[t]) {
+        cout << "yes" << endl;
+    } else {
+        cout << "no" << endl;
+    }
+    return 0;
+}
+```
+
+// vector matrix init
+vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+
+
+
+```cpp
+// gas stop 
+
+int main() {
+
+    int n,k;
+    cin>>n>>k;
+    map<ll,ll>m;
+    for(int i=0;i<n;i++){
+        ll a,b;
+        cin>>a>>b;
+        m[a]+=b;
+    }
+
+
+    ll res=k;
+    for(auto i = m.begin(); i != m.end() ; ++i ) {
+        if(res<i->first){
+            break;
+        }else{
+            res+=i->second;
+        }
+    }
+    cout<<res<<endl;
+
+    return 0;
+}
+```
+
+```cpp
+// cusum 2d ver.1
+// クエリ [x1, x2) × [y1, y2) の半開区間長方形区域の和
+// https://qiita.com/drken/items/56a6b68edef8fc605821
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    // 入力: H × W のグリッド
+    int H, W; cin >> H >> W;
+    vector<vector<int> > a(H, vector<int>(W));
+    for (int i = 0; i < H; ++i) for (int j = 0; j < W; ++j) cin >> a[i][j];
+
+    // 二次元累積和
+    vector<vector<int> > s(H+1, vector<int>(W+1, 0));
+    for (int i = 0; i < H; ++i)
+        for (int j = 0; j < W; ++j)
+            s[i+1][j+1] = s[i][j+1] + s[i+1][j] - s[i][j] + a[i][j];
+
+    // クエリ [x1, x2) × [y1, y2) の長方形区域の和
+    int Q; cin >> Q;
+    for (int q = 0; q < Q; ++q) {
+        int x1, x2, y1, y2;
+        cin >> x1 >> x2 >> y1 >> y2;
+        // 長方形の足し引き (包除原理) 
+        cout << s[x2][y2] - s[x1][y2] - s[x2][y1] + s[x1][y1] << endl;
+    }
+}   
+
+// cusum 2d ver.2
+// クエリ [sx, tx] × [sy, ty] の長方形区域の和
+// [sx,sy]-[tx,ty], 閉区間[(sx,sy),(tx,ty))
+//https://atcoder.jp/contests/abc203/submissions/23075536
+//---------------------------------------------------------------------------------------------------
+struct Ruisekiwa2D {
+    int VH, VW;
+    using T = int;
+    vector<vector<T>> v;
+    bool needBuild = false;
+    Ruisekiwa2D() { }
+    Ruisekiwa2D(int w, int h) { init(w, h); }
+    void init(int w, int h) {
+        needBuild = true;
+        VH = h; VW = w;
+        v.clear();
+        v.resize(h, vector<T>(w));
+        rep(y, 0, VH) rep(x, 0, VW) v[y][x] = 0;
+    }
+    void set(int x, int y, T c) { v[y][x] = c; }
+    void add(int x, int y, T c) { v[y][x] += c; }
+    void build() {
+        rep(y, 0, VH) rep(x, 0, VW) {
+            if (0 < y) v[y][x] += v[y - 1][x];
+            if (0 < x) v[y][x] += v[y][x - 1];
+            if (0 < y && 0 < x) v[y][x] -= v[y - 1][x - 1];
+        }
+        needBuild = false;
+    }
+    // クエリ [sx, tx] × [sy, ty] の長方形区域の和
+    // [sx,sy]-[tx,ty], 半開区間[(sx,sy),(tx,ty))
+    T get(int sx, int tx, int sy, int ty) {
+        if (needBuild) assert(0 && "Need Build");
+        if (tx < sx or ty < sy) return 0;
+        T rs = v[ty][tx];
+        if (0 < sx) rs -= v[ty][sx - 1];
+        if (0 < sy) rs -= v[sy - 1][tx];
+        if (0 < sx && 0 < sy) rs += v[sy - 1][sx - 1];
+        return rs;
+    }
+};
+//---------------------------------------------------------------------------------------------------
+```
+
+
+```cpp
+// DP pattern 
+
+dpi,j=now on ith, using some till ith, sum is j, コイン問題と同じ
+D - Cooking 配るDP
+
+
+```
+
+
+sort by desc 
+std::sort(v.begin(), v.end(), std::greater<int>() );
+
+
+
+
+```cpp
+// abc200
+// mod 1, ai%200==x, aj%200==x then (ai-aj)%200==0
+// mod 2, 0<=ai%200<200
+// mod 3, n==8 ai modifications (256pattern in total) are assigned to 200 rooms at most, some of which contains more than two. ->  鳩の巣原理
+// UF or map, nC2==Sigma[i:1,n-1]i==n(n-1)/2
+```
+
+//bitDP
+cout<<bitset<8>(one)<<" "<<bitset<8>(two)<<endl;
