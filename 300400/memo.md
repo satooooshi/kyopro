@@ -201,7 +201,74 @@ int main(){
 
 ```cpp
 // zaatu
+// https://algo-logic.info/coordinate-compress/
 
+// 1d
+#include <bits/stdc++.h>
+using namespace std;
+/* compress
+    X を座標圧縮して書き換える（副作用）
+    返り値: ソート済みの値
+    計算量: O(n log n)
+*/
+template <typename T>
+vector<T> compress(vector<T> &X) {
+    // ソートした結果を vals に
+    vector<T> vals = X;
+    sort(vals.begin(), vals.end());
+    // 隣り合う重複を削除(unique), 末端のゴミを削除(erase)
+    vals.erase(unique(vals.begin(), vals.end()), vals.end());
+    // 各要素ごとに二分探索で位置を求める
+    for (int i = 0; i < (int)X.size(); i++) {
+        X[i] = lower_bound(vals.begin(), vals.end(), X[i]) - vals.begin();
+    }
+    return vals;
+}
+
+
+//2d
+/* compress
+    (X1,Y1),(X2,Y2)という二点で表されるもの（長方形や直線など）について、行か列の片方（X1とX2 or Y1とY2）を座標圧縮する（副作用）
+    返り値: ソートされ重複要素を除いた値
+    計算量: O(n log n)
+*/
+template <typename T>
+vector<T> compress(vector<T> &C1, vector<T> &C2) {
+    vector<T> vals;
+    int N = (int)C1.size();
+    for (int i = 0; i < N; i++) {
+        for (T d = 0; d < 1; d++) {  // その位置と、一つ隣を確保(隣を確保しないと空白が埋まってしまうことがある)
+            T tc1 = C1[i] + d;
+            T tc2 = C2[i] + d;
+            vals.push_back(tc1);
+            vals.push_back(tc2);
+        }
+    }
+    // ソート
+    sort(vals.begin(), vals.end());
+    // 隣り合う重複を削除(unique), 末端のゴミを削除(erase)
+    vals.erase(unique(vals.begin(), vals.end()), vals.end());
+    for (int i = 0; i < N; i++) {
+        C1[i] = lower_bound(vals.begin(), vals.end(), C1[i]) - vals.begin();
+        C2[i] = lower_bound(vals.begin(), vals.end(), C2[i]) - vals.begin();
+    }
+    return vals;
+}
+
+int main() {
+    // 入力
+    int N;
+    cin >> N;
+    vector<long long> X1(N), Y1(N), X2(N), Y2(N);
+    for (int i = 0; i < N; i++) {
+        cin >> X1.at(i) >> Y1.at(i) >> X2.at(i) >> Y2.at(i);
+    }
+    // 座標圧縮
+    vector<long long> X = compress(X1, X2);
+    vector<long long> Y = compress(Y1, Y2);
+
+    return 0;
+}
 
 ```
 
