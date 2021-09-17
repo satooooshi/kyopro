@@ -722,3 +722,15 @@ int main() {
   return 0;
 }
 ```
+
+
+B - Palindrome with leading zeros
+0≤N≤10^9 meaning 10 digits at most
+add at most 10 zeros to the front
+
+
+割り算無くす-->掛け算の形に
+(d-d/r)>0 torelence
+-->
+d*r-d>0
+
