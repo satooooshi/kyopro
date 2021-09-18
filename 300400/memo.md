@@ -34,6 +34,8 @@ int main() {
 ```
 
 
+
+
 casting 小数点以下が切り捨て
 ```cpp
     int a,b;
@@ -734,3 +736,116 @@ add at most 10 zeros to the front
 -->
 d*r-d>0
 
+
+
+```cpp
+
+// grid traverse
+#include <bits/stdc++.h>
+using namespace std;
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+
+const vector<int> dx = {1, 0};
+const vector<int> dy = {0, 1};
+const long long INF = 1LL<<60;
+int H, W;
+vector<string> fi;
+
+long long solve() {
+    vector<vector<long long>> dp(H, vector<long long>(W, INF));
+    if(fi[0][0]=='#')dp[0][0]=1;
+    else dp[0][0]=0;
+
+    for(int y=0;y<H;y++){
+        for(int x=0;x<W;x++){
+            for(int i=0;i<2;i++){
+                int nx=x+dx[i],ny=y+dy[i];
+                if (ny<0 || ny>= H || nx<0 || nx>=W)continue;
+                int add = 0;
+                if (fi[ny][nx] == '#' && fi[y][x] == '.')add=1;
+                chmin(dp[ny][nx], dp[y][x] + add);
+            }
+        }
+    }
+    return dp[H-1][W-1];
+}
+
+int main() {
+    cin >> H >> W;
+    fi.resize(H);
+    for (int i = 0; i < H; ++i) cin >> fi[i];
+    cout << solve() << endl;
+}
+
+// depth-first grid traverse
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+// void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+
+int main() {
+    int h,w,x,y;
+    cin>>h>>w>>y>>x;// 0-indexed
+    x--;
+    y--;
+    vector<string>g;
+    for(int i=0;i<h;i++){
+        string s;cin>>s;
+        g.push_back(s);
+    }
+
+    // depth-first grid traverse
+    const vector<int> dx = {0, 1, 0, -1};
+    const vector<int> dy = {-1, 0, 1, 0};
+    ll ans=1;
+    for(int i=0;i<4;i++){
+        int cx=x,cy=y;
+        while(1){
+            cx+=dx[i];
+            cy+=dy[i];
+            if(cx<0||cx>=w||cy<0||cy>=h)break;
+            if(g[cy][cx]=='#')break;
+            ans++;
+        }
+    }
+    cout<<ans<<endl;
+    return 0;
+}
+
+
+
+```
+
+
+nC2==Sigma[i:1,n-1]==n(n-1)/2
+https://atcoder.jp/contests/abc197/editorial/997
+N 要素の数列を 1 つ以上の空でない連続した区間に分ける方法を全て試すには、隣り合う要素の間 (N−1 個ある) それぞれに仕切りを入れるか入れないかの 2^(N−1)通りを試せばよいです。 --> bitDP
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// 余事象
+int main() {
+    ll n;cin>>n;
+    ll ans=0;
+    if (n>=1000) ans+=n-999;
+    if (n>=1000000) ans+=n-999999;
+    if (n>=1000000000) ans+=n-999999999;
+    if (n>=1000000000000) ans+=n-999999999999;
+    if (n>=1000000000000000) ans+=n-999999999999999;
+    cout<<ans<<endl;
+
+    return 0;
+}
