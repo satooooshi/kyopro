@@ -832,6 +832,7 @@ int main() {
 nC2==Sigma[i:1,n-1]==n(n-1)/2
 https://atcoder.jp/contests/abc197/editorial/997
 N 要素の数列を 1 つ以上の空でない連続した区間に分ける方法を全て試すには、隣り合う要素の間 (N−1 個ある) それぞれに仕切りを入れるか入れないかの 2^(N−1)通りを試せばよいです。 --> bitDP
+// 余事象 abc195_c  C-comma
 
 #include<bits/stdc++.h>
 using namespace std;
