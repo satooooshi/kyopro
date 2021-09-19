@@ -17,11 +17,11 @@ int main() {
     
     int n,m;cin>>n>>m;
     vector<int>blue(m+2);// blue points
-    blue[0]=0;
+    blue[0]=0;//sentinel
     for(int i=1;i<=m;i++){
         cin>>blue[i];
     }
-    blue[m+1]=n+1;
+    blue[m+1]=n+1;//sentinel
     sort(blue.begin(),blue.end());
     vector<int>vec;// white intervals
     int mn=inf;
