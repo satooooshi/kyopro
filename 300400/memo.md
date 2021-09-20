@@ -1,7 +1,6 @@
 g++-10
 ./a.out < ~/Downloads/test_11.txt
 
-```cpp
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -10,7 +9,7 @@ using namespace std;
 #define fore(i,a) for(auto &i:a)
 #define all(x) (x).begin(),(x).end()
 
-void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
 typedef long long ll; const int inf = INT_MAX / 2; 
 const ll infl = 1LL << 60;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
@@ -25,7 +24,6 @@ int main() {
 
     return 0;
 }
-```
 
 
 ```cpp
@@ -307,7 +305,7 @@ void _main() {
 ```cpp
 // union-find, kaibun index
 
-// union-find
+// union-find, union find
 //---------------------------------------------------------------------------------------------------
 struct UnionFind {
 	using T = int;
@@ -357,6 +355,59 @@ int main() {
 	rep(i, 0, 201010) if (uf[i] == i) ans += uf.getValues(i) - 1;
 	cout << ans << endl;
     return 0;
+}
+
+
+// union find simple ver.
+// node numbers should be 0-indexed 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+struct UnionFind {
+	//自身が親であれば、その集合に属する頂点数に-1を掛けたもの
+	//そうでなければ親のid
+	vector<int> r;
+	UnionFind(int N) {
+		r = vector<int>(N, -1);
+	}
+	int root(int x) {
+		if (r[x] < 0) return x;
+		return r[x] = root(r[x]);
+	}
+	bool unite(int x, int y) {
+		x = root(x);
+		y = root(y);
+		if (x == y) return false;
+		if (r[x] > r[y]) swap(x, y);
+		r[x] += r[y];
+		r[y] = x;
+		return true;
+	}
+	int size(int x) {
+		return -r[root(x)];
+	}
+};
+int main() {
+	int N, M;
+	cin >> N >> M;
+	
+	//友達集合を作る
+	UnionFind UF(N);
+	for (int i = 0; i < M; i++)
+	{
+		int A, B;
+		cin >> A >> B;
+		A -= 1; B -= 1;
+		UF.unite(A, B);
+	}
+	//最大の友達集合を求める
+	int ans = 0;
+	for (int i = 0; i < N; i++)
+	{
+		ans = max(ans, UF.size(i));
+	}
+	cout << ans << endl;
 }
 
 ```
@@ -875,3 +926,68 @@ int main(){
 
 
 put sentinels to vector, lower_bound
+
+C - Repsept
+https://atcoder.jp/contests/abc174/tasks/abc174_c
+// Aiの中にKの倍数 --> Ai≡0 mod K, mod Kの値は[0,k)で循環
+
+
+```cpp
+// enum_divisors(約数s)
+vector<long long> enum_divisors(long long N) {
+    vector<long long> res;
+    for (long long i = 1; i * i <= N; ++i) {
+        if (N % i == 0) {
+            res.push_back(i);
+            // 重複しないならば i の相方である N/i も push
+            if (N/i != i) res.push_back(N/i);
+        }
+    }
+    // 小さい順に並び替える
+    sort(res.begin(), res.end());
+    return res;
+}
+
+int main() {
+    long long N;
+    cin >> N;
+    const auto &res = enum_divisors(N);
+    for (int i = 0; i < res.size(); ++i) cout << res[i] << " ";
+    cout << endl;
+}
+
+// prime_factorize
+vector<pair<long long, long long> > prime_factorize(long long N) {
+    vector<pair<long long, long long> > res;
+    for (long long a = 2; a * a <= N; ++a) {
+        if (N % a != 0) continue;
+        long long ex = 0; // 指数
+
+        // 割れる限り割り続ける
+        while (N % a == 0) {
+            ++ex;
+            N /= a;
+        }
+
+        // その結果を push
+        res.push_back({a, ex});
+    }
+
+    // 最後に残った数について
+    if (N != 1) res.push_back({N, 1});
+    return res;
+}
+
+int main() {
+    long long N;
+    cin >> N;
+    const auto &res = prime_factorize(N);
+    cout << N << ":";
+    for (auto p : res) {
+        for (int i = 0; i < p.second; ++i) cout << " " << p.first;
+    }
+    cout << endl;
+}
+```
+
+ある素数 p と正の整数 e を用いて、 z=p^eと表せる  つまりzは約数(divisor)
