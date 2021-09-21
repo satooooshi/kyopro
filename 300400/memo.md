@@ -185,9 +185,16 @@ int main(){
     vector<int> a(n);
     for (int i = 0; i < n; ++i) cin >> a[i]; // a の入力
 
-    // 累積和
+    // 累積和 
+    // cusum
     vector<int> s(n+1, 0); // s[0] = 0 になる
     for (int i = 0; i < n; ++i) s[i+1] = s[i] + a[i];
+
+    int k=4// sum of 4 elements, i<n+1 !!!
+    for(int i=k;i<n+1;i++){
+        cout<<"["<<i-k<<","<<i<<"):"<<s[i]-s[i-k]<<endl;
+        res=max(res,s[i]-s[i-k]);
+    }
 
     // 区間 [left, right) の総和を求める
     int left, right;
@@ -1100,3 +1107,94 @@ int main(){
     return 0;
 }
 ```
+
+// implicit casting
+e[i]=1.0*(1+p)/2;
+
+
+
+```cpp
+// next_permutation o(n!) max n==10
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+int main() {
+    int n;cin>>n;
+    vector<int>a(n);
+    map<vector<int>,int>ord;
+    for(int i=0;i<n;i++){
+        a[i]=i+1;
+    }
+    vector<int>p(n),q(n);
+    for(int i=0;i<n;i++){
+        cin>>p[i];
+    }
+    for(int i=0;i<n;i++){
+        cin>>q[i];
+    }
+
+
+    int i=0;
+    do{
+        ord[a]=i++;
+    }while(next_permutation(a.begin(),a.end()));
+
+    cout<<abs(ord[p]-ord[q])<<endl;
+    return 0;
+}
+
+```
+
+
+
+```cpp
+//binary search,bs, O(log2N)
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+ll a,b,x;
+bool check(ll n) {
+    ll dn = to_string(n).length();
+    return (a*n+b*dn)<=x;
+}
+
+int main() {
+    cin >> a >> b >> x;
+    ll left = 0, right = 1000000001;
+    ll ans=left;
+    while ( right - left > 1 ) {
+        ll mid = (left + right) / 2;
+        if (check(mid)){
+            left=mid;
+            ans=mid;
+        }else{
+            right=mid;
+        } 
+    }
+    cout << ans << endl;
+    return 0;
+}
+```
+
+
+ll digit_num(ll x){
+    return to_string(x).length();
+}
