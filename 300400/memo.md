@@ -1198,3 +1198,20 @@ int main() {
 ll digit_num(ll x){
     return to_string(x).length();
 }
+
+
+二項定理
+
+
+//angle is double !!
+int degree;// do
+double PI = acos(-1);  // PI = 3.141593...
+double rad = deg * PI / 180.0;// degree -> radian
+double ans=cos(rad);
+
+// D water bottle
+//https://atcoder.jp/contests/abc144/tasks/abc144_d
+```cpp
+
+
+```
