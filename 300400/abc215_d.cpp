@@ -47,6 +47,7 @@ int main(){
     //    cout<<divs[i]<<endl;
     //}
 
+    // Aの約数の集合とそれぞれの約数の倍数以外の1<=k<=mの範囲のkが答え
     for(int i=2;i<=100010;i++){
         if(divs[i]==true&&muled[i]==false)
         for(int j=i;j<=100010;j+=i){
