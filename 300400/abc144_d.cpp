@@ -32,7 +32,8 @@ int main() {
 
     long double left=0,right=90; // [0do,90do) in degree
     long double ans=left; // in degree
-    while(right-left>1){
+    //while(right-left>1){
+    for(int _ = 1; _ <= 100000; _++) {
         long double mid=(left+right)/2.0;// in degree
         if(check(mid)){
             left=mid;

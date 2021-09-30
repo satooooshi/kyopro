@@ -190,7 +190,8 @@ int main(){
     vector<int> s(n+1, 0); // s[0] = 0 になる
     for (int i = 0; i < n; ++i) s[i+1] = s[i] + a[i];
 
-    int k=4// sum of 4 elements, i<n+1 !!!
+    ll res=-1;
+    int k=4;// sum of 4 elements, i<n+1 !!!
     for(int i=k;i<n+1;i++){
         cout<<"["<<i-k<<","<<i<<"):"<<s[i]-s[i-k]<<endl;
         res=max(res,s[i]-s[i-k]);
@@ -1114,6 +1115,8 @@ e[i]=1.0*(1+p)/2;
 
 
 ```cpp
+// 期待値
+// E[X+Y] == E[X]+E[Y] 線形性
 // next_permutation o(n!) max n==10
 #include<bits/stdc++.h>
 using namespace std;
@@ -1203,15 +1206,218 @@ ll digit_num(ll x){
 二項定理
 
 
+
+```cpp
 //angle is double !!
 int degree;// do
 double PI = acos(-1);  // PI = 3.141593...
 double rad = deg * PI / 180.0;// degree -> radian
 double ans=cos(rad);
 
-// D water bottle
+// D water bottle, binary search with floating point O(log2N) kai loop
 //https://atcoder.jp/contests/abc144/tasks/abc144_d
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+// f(a,b,theta):=の時の入る水の容量の最大値
+// bs
+
+double PI = acos(-1);  // PI = 3.141593...
+int a,b,x;
+bool check(long double deg) {
+    if(a*a*b>=2*x){
+        long double rad=(90-deg)* PI / 180.0; // in radian
+        return 1.0*b*b*a*tan(rad) >= 2.0*x;
+    }else{
+        long double rad=deg* PI / 180.0; // in radian
+        return 1.0*(2*a*a*b-a*a*a*tan(rad)) >= 2.0*x;
+    }
+}
+
+int main() {
+
+    cin>>a>>b>>x;
+
+    long double left=0,right=90; // [0do,90do) in degree
+    long double ans=left; // in degree
+    //while(right-left>1){
+    for(int _ = 1; _ <= 100000; _++) {
+        long double mid=(left+right)/2.0;// in degree
+        if(check(mid)){
+            left=mid;
+            ans=mid;
+        }else{
+            right=mid;
+        }
+
+    }
+    cout << fixed << setprecision(10);
+    cout<<ans<<endl;
+ 
+    return 0;
+}
+
+```
+
+
 ```cpp
+// base number 進数
+// #include<bits/stdc++.h>
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 
+int main() {
+
+    ll n;cin>>n;
+    vector<char>c(27);// 1-indexed, c[0] has nothing
+    for(int i=1;i<=26;i++){
+        c[i]='a'+(i-1);
+    }
+    //for(auto e:c)cout<<e<<endl;
+
+    // Base　26
+    string res="";
+    while(n>0){
+        int d=n%26;
+        if(d==0){
+            d=26;
+            n--;
+        }
+        res+=c[d];
+        n/=26;
+    }
+    reverse(res.begin(),res.end());
+    cout<<res<<endl;
+
+    return 0;
+}
+
+```
+
+// mod, 合同式
+// i ≡ 0 mod c 
+// i%c==0
+
+```cpp
+// doubling dp
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAX = 20;
+int main() {
+    string S;
+    cin >> S;
+    int N = S.size();
+
+    // 初期値を埋める、 (2^0, parent)先の遷移先
+    vector<vector<int>> next(MAX, vector<int>(N));
+    for (int i = 0; i < N; ++i) {
+        if (S[i] == 'L') next[0][i] = i-1;
+        else next[0][i] = i+1;
+    }
+    for (int d = 0; d+1 < MAX; ++d) {
+        for (int i = 0; i < N; ++i) { // every nodes
+            // ex. node 1から出発して、2^3先の遷移node。
+            // d+1==3 d==2 i==2
+            //nv:=next[2][1]=3- > next[2][nv=3]
+            next[d+1][i] = next[d][next[d][i]];
+        }
+    }
+
+    vector<int> res(N, 0);
+    int K = N*2;
+    for (int v = 0; v < N; ++v) {
+        int nv = v;
+        // ex. node 10の13(01101)先の遷移先
+        for (int d = 0; d < MAX; ++d) {
+            // traverse from lsb
+            // nv:=next[....1][10]
+            // nv:=next[..1..][nv]
+            // nv:=next[.1...][nv]
+            if (K & (1<<d)) nv = next[d][nv];
+        }
+        res[nv]++;
+    }
+    for (int v = 0; v < N; ++v) cout << res[v] << " ";
+    cout << endl;
+}
+
+```
+
+
+
+
+
+
+```cpp
+// https://atcoder.jp/contests/abc136/tasks/abc136_d
+// recDP
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+int n;
+vector<int>a;
+vector<int>cnt(10,0);//K=0,1,…,9
+
+void rec(int i, int j){
+    if(i==n-1){
+        cnt[j]++;
+        return ;
+    }
+
+    rec( i+1, (a[i+1]+j)%10 );
+    rec( i+1, (a[i+1]*j)%10 );
+
+    return ;
+}
+
+int main() {
+
+    cin>>n;
+    a.resize(n);
+    for(auto &e:a)cin>>e;
+
+    // red(i,j):= (先頭 op a[i])%10==jし終わった時のi,j, recDP
+    rec(0,a[0]);
+
+    for(int i=0;i<10;i++){
+        cout<<cnt[i]<<endl;
+    }
+
+    return 0;
+}
 ```
