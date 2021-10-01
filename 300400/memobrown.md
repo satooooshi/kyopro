@@ -1424,6 +1424,7 @@ int main() {
 
 ```cpp
 // count up 01(pivot)
+// then can simplify problem
 int main(){
     int N;
     cin>>N;

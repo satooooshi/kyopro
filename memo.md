@@ -669,7 +669,7 @@ int main() {
     cin >> V >> E;
     int s, t;
     cin >> s >> t;
-    vector<vector<int>> G(V);
+    vector<vector<int>> G(V); // neighbor list -- cannot use when too much nodes memory space O(n^2) -- use neightbor vector instead 
     for (int i = 0; i < E; i++) {
         int a, b;
         cin >> a >> b;
