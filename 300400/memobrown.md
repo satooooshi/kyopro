@@ -432,23 +432,28 @@ min_priority_queue<ll> que;
 
 ```cpp
 
-// imos O(x-axis length) vs. 包含 O(n^6)
+// imos O(x-axis length) --> use map and shakutori for speedup(D snuke prime) vs. 包含 O(n^6)
 
 //imos, overlappingの個数を数える　
-for (int i = 0; i < T; i++) table[i] = 0;
-for (int i = 0; i < C; i++) {
-  table[S[i]]++;  // 入店処理: カウントを 1 増やす
-  table[E[i]]--;  // 出店処理: カウントを 1 減らす
-}
-// シミュレート
-for (int i = 0; i < T; i++) {
-  if (0 < i) table[i] += table[i - 1];
-}
-// 最大値を調べる
-M = 0;
-for (int i = 0; i < T; i++) {
-  if (M < table[i]) M = table[i];
-}
+    //imos
+    int T=1000000;
+    vector<int>table(T);
+    // count
+    for (int i = 0; i < n; i++) {
+        table[a[i]]++;  // 入店処理: カウントを 1 増やす
+        table[b[i]]--;  // 出店処理: カウントを 1 減らす
+    }
+    // simulate
+    for (int i = 0; i < T; i++) {
+        if (0 < i) table[i] += table[i - 1];
+    }
+    // 最大値を調べる
+    int M = 0;
+    for (int i = 0; i < T; i++) {
+        if (M < table[i]) M = table[i];
+    }
+
+    return 0;
 
 //包含, overlappingの区間数を数える->es
         int AA = max(A[i], A[j]);
@@ -1444,6 +1449,38 @@ int main(){
         if(zc==N) break;
     }
     cout<<c<<endl;
+}
+
+```
+
+
+```cpp
+//zaatu
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    // 座標圧縮したい数列
+    vector<int> A = {8, 100, 33, 33, 33, 12, 6, 1211};
+
+    // コピー
+    vector<int> B = A;
+    
+    // B を小さい順にソート
+    sort(B.begin(), B.end());
+    
+    // B から重複を除去する
+    B.erase(unique(B.begin(), B.end()), B.end());
+
+    // 座標圧縮した結果を求める
+    vector<int> res(A.size());
+    for (int i = 0; i < A.size(); ++i) {
+        res[i] = lower_bound(B.begin(), B.end(), A[i]) - B.begin();
+    }
+
+
+    for (auto v: res) cout << v << ", ";
+    cout << endl;
 }
 
 ```
