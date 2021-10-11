@@ -17,24 +17,28 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 int main() {
 
     int h,n;cin>>h>>n;
-    vector<pair<int,int>>vec;
+    vector<int>a(n),b(n);
     for(int i=0;i<n;i++){
-        int a,b;cin>>a>>b;
-        vec.push_back({a,b});
-    }
-    sort(vec.begin(),vec.end(),[](auto const& lhs, auto const& rhs) {
-                                    if (lhs.first*rhs.second!=rhs.first*lhs.second) return lhs.first*rhs.second>=rhs.first*lhs.second;
-                                    else if (lhs.first != rhs.first) return lhs.first > rhs.first;
-                                    else if (lhs.second != rhs.second) return lhs.second < rhs.second;
-                                    else return true;
-                                });
-
-    for(auto p:vec){
-        cout<<p.first<<" "<<p.second<<endl;
+        cin>>a[i]>>b[i];
     }
 
-    int cnt=h/vec[0].first;
-    h=h-cnt*vec[0].first;
-    auto idx=lower_bound();
+    // dpi,j:= 前からi個のいくつか使って、モンスターの残りのライフがjの時のコストの最小値
+    // 何個使ってもいいナップサック問題！！
+    int MAX=10101;
+    vector<vector<int>>dp(MAX, vector<int>(MAX,inf));
+
+    dp[0][h]=0;
+    for(int i=0;i<=n;i++){
+        for(int j=h;j>=0;j--){
+            chmin(dp[i][max(0,j-a[i])],dp[i][j]+b[i]);// use i th magic 
+            chmin(dp[i+1][j],dp[i][j]);// dont use i th magic anynmore
+            // max(0,j-a[i])0以下もゼロにまとめる
+        }
+    }
+
+
+    cout<<dp[n][0]<<endl;
+
+
     return 0;
-}
+ }

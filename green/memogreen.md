@@ -495,3 +495,375 @@ while (N) {
 }
 
 ```
+
+
+```cpp
+// knapsack
+// 何個使ってもいいナップサック問題！！
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+
+int main() {
+
+    int h,n;cin>>h>>n;
+    vector<int>a(n),b(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i]>>b[i];
+    }
+
+    // dpi,j:= 前からi個のいくつか使って、モンスターの残りのライフがjの時のコストの最小値
+    // 何個使ってもいいナップサック問題！！
+    int MAX=10101;
+    vector<vector<int>>dp(MAX, vector<int>(MAX,inf));
+
+    dp[0][h]=0;
+    for(int i=0;i<=n;i++){
+        for(int j=h;j>=0;j--){
+            chmin(dp[i][max(0,j-a[i])],dp[i][j]+b[i]);// use i th magic 
+            chmin(dp[i+1][j],dp[i][j]);// dont use i th magic anynmore
+            // max(0,j-a[i])0以下もゼロにまとめる
+        }
+    }
+
+
+    cout<<dp[n][0]<<endl;
+
+
+    return 0;
+ }
+
+```
+
+
+```cpp
+// green tokurina
+
+// jikken for loop toka
+// cusum tokaha test case de iter kakuninn
+
+// shakutori hou
+条件を満たす連続する区間を探すときに、左端を全探索(es, outer for loop )して、条件を満たす右端を高速に数え上げるというのがある。
+左端を全探索すると、総和がK以上である右端であるかどうかは単調性を持つ。
+
+// ver1
+// l es
+#include <iostream>
+#include <vector>
+using namespace std;
+typedef long long ll;
+
+int main() {
+
+        int n; ll k; cin >> n>>k;
+        vector<long long> a(n);
+        for (int i = 0; i < n; ++i) cin >> a[i];
+
+        /* 区間の長さの最小値 */
+        ll res = 0; // 上界を入れておく
+
+        /* 区間の左端 left で場合分け */
+        int right = 0;
+        long long sum = 0;
+        for (int left = 0; left < n; ++left) {
+            /* [left, right) の総和が x 以上となる最小の right を求める */
+            while (right < n && sum < k) {
+                sum += a[right];
+                ++right;
+            }
+
+            /* 更新 */
+            if (sum < k) break; // これ以上 left を進めてもダメ
+            res+=(n-right+1);
+            //cout<<left<<", "<<right<<": "<<endl;
+
+            /* left をインクリメントする準備 */
+            if (right == left) ++right; // right が left に重なったら right も動かす
+            else sum -= a[left]; // left のみがインクリメントされるので sum から a[left] を引く
+        }
+
+        cout<<res<<endl;
+
+        return 0;
+}
+
+// ver2
+// r es
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+vector<pair<char, int>> runLengthEncoding(string s) {
+	int n = s.length();
+ 
+	vector<pair<char, int>> res;
+	char pre = s[0];
+	int cnt = 1;
+	rep(i, 1, n) {
+		if (pre != s[i]) {
+			res.push_back({ pre, cnt });
+			pre = s[i];
+			cnt = 1;
+		}
+		else cnt++;
+	}
+ 
+	res.push_back({ pre, cnt });
+	return res;
+}
+
+int main() {
+
+    int n,k;cin>>n>>k;
+    string s;cin>>s;
+    vector<pair<char, int>>p=runLengthEncoding(s);
+    //for(auto e:p)cout<<e.first<<", "<<e.second<<endl;
+
+    int res=-1;
+    int zero=0;
+    int cnt=0;
+    int l=0;
+    // sharitori hou
+    for(int r=0;r<p.size();r++){
+        cnt += p[r].second;
+		if (p[r].first == '0') zero++;
+ 
+		while (k < zero) {
+		    cnt -= p[l].second;
+			if (p[l].first == '0') zero--;
+			l++;
+		}
+ 
+		chmax(res, cnt);
+	}
+
+    cout<<res<<endl;
+
+    return 0;
+}
+```
+
+
+```cpp
+
+// xor characteristics
+// for-loop tokade jikken juuyou!!
+
+
+```
+
+
+```cpp
+// run length
+vector<pair<char, int>> runLengthEncoding(string s) {
+	int n = s.length();
+ 
+	vector<pair<char, int>> res;
+	char pre = s[0];
+	int cnt = 1;
+	rep(i, 1, n) {
+		if (pre != s[i]) {
+			res.push_back({ pre, cnt });
+			pre = s[i];
+			cnt = 1;
+		}
+		else cnt++;
+	}
+ 
+	res.push_back({ pre, cnt });
+	return res;
+}
+
+```
+
+
+```cpp
+            //sort(ncnt.begin(),ncnt.end());// by desc, first multiplied by -1 then first by desc second by asc
+            
+            // sort first by asc, second by desc
+            sort(ncnt.begin(),ncnt.end(),[](auto p1, auto p2) {
+                return p1.first > p2.first || (p1.first == p2.first && p1.second < p2.second);
+            });// by desc
+
+```
+
+
+```cpp
+// simplify dp
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; 
+const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+
+int main(){
+
+    int n;cin>>n;
+    vector<int>a(n),b(n);
+    for(auto &e:a)cin>>e;
+    for(auto &e:b)cin>>e;
+
+    // kubaru dp
+    vector<vector<ll>>dp(n+10,vector<ll>(3001,0));
+    for(int j=a[0];j<=b[0];j++){
+        dp[0][j]=1;
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<3001;j++){
+            for(int k=0;k<3001;k++){
+                if(j<=k&&a[i+1]<=k&&k<=b[i+1]){ // simplify dp by adding constraint-if rather than specific start point in for-loop
+                    dp[i+1][k]+=dp[i][j];
+                    dp[i+1][k]%=998244353;
+                }
+
+            }
+        }
+    }
+
+    ll res=0;
+    for(int j=0;j<3001;j++){
+        res+=dp[n-1][j];
+        res%=998244353;
+    }
+
+    cout<<res<<endl;
+
+    return 0;
+}
+
+/*
+    vector<vector<ll>>dp(n+10,vector<ll>(n+10,0));
+    dp[0][0] = 1;
+    for(int i=0;i<n;i++) 
+        for(int lst=0;lst<3001;lst++) 
+            for(int nxt=lst;nxt<3001;nxt++) {
+                if (a[i] <= nxt && nxt <= b[i]) 
+                    dp[i + 1][nxt] += dp[i][lst];
+            }
+
+    ll res=0;
+    for(int j=0;j<3001;j++){
+        res+=dp[n][j];
+        res%=998244353;
+    }
+
+    cout<<res<<endl;
+
+*/
+
+// speed up dp by transforming kubaruDP into morauDP
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; 
+const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+// morau dp,initial value in dp0,0, if-constraint, cusum s0=0, sj is sum of dpi,[0,j), 3001+1 for loop
+
+int main(){
+
+    int n;cin>>n;
+    vector<int>a(n),b(n);
+    for(auto &e:a)cin>>e;
+    for(auto &e:b)cin>>e;
+
+    // morau dp
+    vector<vector<ll>>dp(n+1,vector<ll>(3001,0));
+    dp[0][0]=1;
+    for(int i=1;i<n+1;i++){
+        // cusum
+        vector<ll>s(3001+1,0);//s[0]=0; sj is sum of dp,[0..j) NOT contain right end!!
+        for(int j=0;j<3001+1;j++){
+            s[j+1]=s[j]+dp[i-1][j];
+            s[j+1]%=998244353;
+        }
+        for(int j=0;j<3001;j++){
+            if(a[i-1]<=j&&j<=b[i-1]){
+                dp[i][j]=s[j]+dp[i-1][j];
+                dp[i][j]%=998244353;
+            }
+        }
+    }
+
+    ll res=0;
+    for(int j=0;j<3001;j++){
+        res+=dp[n][j];
+        res%=998244353;
+    }
+    cout<<res<<endl;
+
+    return 0;
+}
+
+
+/*
+    // morau dp
+    vector<vector<ll>>dp(n+1,vector<ll>(3001,0));
+    dp[0][0]=1;
+    for(int i=1;i<n+1;i++){
+        for(int j=0;j<3001;j++){
+            for(int k=0;k<3001;k++){
+                if(k<=j&&a[i-1]<=j&&j<=b[i-1]){
+                    dp[i][j]+=dp[i-1][k];
+                    cout<<i<<","<<j<<" += "<<i-1<<","<<k<<endl;
+                    cout<<"dp "<<i<<": "<<dp[i][j]<<endl;
+                }
+            }
+            
+        }
+    }
+    
+    ll res=0;
+    for(int j=0;j<3001;j++){
+        res+=dp[n][j];
+        res%=998244353;
+    }
+    cout<<res<<endl;
+
+
+*/
+
+```
