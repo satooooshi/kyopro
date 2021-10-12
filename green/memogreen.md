@@ -701,7 +701,7 @@ vector<pair<char, int>> runLengthEncoding(string s) {
 
 ```cpp
             //sort(ncnt.begin(),ncnt.end());// by desc, first multiplied by -1 then first by desc second by asc
-            
+
             // sort first by asc, second by desc
             sort(ncnt.begin(),ncnt.end(),[](auto p1, auto p2) {
                 return p1.first > p2.first || (p1.first == p2.first && p1.second < p2.second);
@@ -866,4 +866,15 @@ int main(){
 
 */
 
+```
+
+
+```cpp 
+/*
+ a1, a2, ..., aN の最大公約数を D とする(D=gcd(a1...an))と、a1, a2, ..., aN は D で割り切れるので M = a1 + a2 + ... + aNも D で割り切れます。(a%D + b%D == (a+b)%D  == M%D) 従って、D は M の約数になります。
+また、D が M の約数のとき、a1, a2, ..., aN ≥ D なので M ≥ N × D です。
+実は D が M の約数であって M ≥ N ×D を満たすとき、最大公約数が D 以上となるように a1, a2, ..., aN
+が構成できます。具体的には、a1 = a2 = ... = aN−1 = D, aN = M − (N − 1) × D とします。このとき、
+aN は正整数かつ D の倍数なので各要素の最大公約数は D 以上*1となります。
+*/
 ```
