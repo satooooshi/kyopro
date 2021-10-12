@@ -38,6 +38,8 @@ int main(){
 
     int n;cin>>n;
     memo.assign(n+1,-1);
+
+    // es rec memo
     cout<<rec(n)<<endl;
 
     /* this is not appriable!!

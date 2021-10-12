@@ -884,3 +884,89 @@ aN は正整数かつ D の倍数なので各要素の最大公約数は D 以�
     int mid;
     if (n % 2 == 1) mid = b[n / 2];
     else mid = (b[n / 2 - 1] + b[n / 2]) / 2;
+
+
+
+// memo, rec keisannryou
+メモ化再帰（動的計画法）で解く。
+「f(cu) := cu円引き出すのに必要な最小の操作回数」
+と定義して、メモ化再帰を行う。
+状態数はcuが0～Nだけ取りうるのでO(N)
+　
+遷移であるが、1円の遷移は別に大丈夫。
+6の累乗円の遷移はすぐにNを超えてしまうので、O(log6N) (<log2N)くらい(6^p=N, 2^x=N then p<xのはず)
+9の累乗円の遷移も同様。
+よって、遷移数はO(log6N)となる。
+　
+これでO(NlogN)なので間に合う。 (遷移数edge*状態数node)
+
+
+
+```cpp
+// grid dfs
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+//void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+
+int H, W;
+string B[50];
+int dx[4] = { 0, 1, 0, -1 }, dy[4] = { -1, 0, 1, 0 };
+//---------------------------------------------------------------------------------------------------
+int vis[55][55];
+int dp[55][55];
+int check() {
+    queue<pair<int, int>> que;
+    que.push({ 0, 0 });
+    vis[0][0] = 1;
+    while (!que.empty()) {
+        auto q = que.front(); que.pop();
+        int x, y;
+        tie(x, y) = q;
+ 
+        if (x == W - 1 and y == H - 1) return dp[y][x];
+ 
+        rep(d, 0, 4) {
+            int xx = x + dx[d];
+            int yy = y + dy[d];
+            if (0 <= xx and xx < W and 0 <= yy and yy < H) {
+                if (B[yy][xx] == '.' and vis[yy][xx] == 0) {
+                    vis[yy][xx] = 1;
+                    dp[yy][xx] = dp[y][x] + 1;
+                    que.push({ xx, yy });
+                }
+            }
+        }
+    }
+ 
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------
+int main() {
+    cin >> H >> W;
+    rep(y, 0, H) cin >> B[y];
+ 
+    int ans, res = check();
+    if (!res) ans = -1;
+    else {
+        ans = H * W - res - 1;
+        rep(y, 0, H) rep(x, 0, W) if (B[y][x] == '#') ans--;
+    }
+ 
+    printf("%d\n", ans);
+    return 0;
+}
+
+```
