@@ -1108,11 +1108,15 @@ struct Edge {
 using Graph = vector<vector<Edge>>;
 using P = pair<long, int>;
 const long long INF = 1LL << 60;
+Graph g;
 
 /* dijkstra(G,s,dis,prev)
     入力：グラフ G, 開始点 s, 距離を格納する dis, 最短経路の前の点を記録するprev
     計算量：O(|E|log|V|)
     副作用：dis, prevが書き換えられる
+    g.assign(n);
+    vector<ll> dist(10, INF);
+    vector<int> prev(10, -1);
 */
 void dijkstra(const Graph &G, int s, vector<long long> &dis, vector<int> &prev) {
     int N = G.size();
