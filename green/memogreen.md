@@ -351,10 +351,10 @@ int main() {
 
 
 ```cpp
-// dfs with grid with two ver. 
+// bfs with grid with two ver. 
 
 // abc151_d
-// dfs with grid, queue, string grid
+// bfs with grid, queue, string grid
 // https://blog.hamayanhamayan.com/entry/2020/01/12/225950
 int H, W;
 string S[20];
@@ -1045,7 +1045,7 @@ vector<int>c,s,f;
 
 int dfs(int v){
     vector<bool> seen(n, false);  // 既に見たことがある頂点か記録する
-    vector<int> dist(n, -1); 
+    vector<int> dist(n, inf); 
     stack<int> st;
     seen[v] = true;
     dist[v]=0;
