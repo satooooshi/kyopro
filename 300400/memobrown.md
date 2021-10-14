@@ -97,6 +97,7 @@ https://atcoder.jp/contests/abc216/tasks/abc216_c
 
 topological sort to neighbot vector
 ```cpp
+//https://algo-logic.info/topological-sort/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -145,7 +146,7 @@ int main() {
         for (int j = 0; j < k; j++) {
             int a;cin >> a;a--;
             if (pre != -1) g[pre][a];//g.add_edge(pre,a);
-            if (pre == a) { // exist loop, cannot sorttopologically
+            if (pre == a) { // exist loop, cannot sort topologically
                 puts("No");
                 return 0;
             }
@@ -189,6 +190,12 @@ int main(){
     // cusum
     vector<int> s(n+1, 0); // s[0] = 0 になる
     for (int i = 0; i < n; ++i) s[i+1] = s[i] + a[i];
+
+    // a[0,n)の和を求める、n含まない、n-1まで！
+    cout<<s[n]<<endl;
+
+    // [0,3)-[0,1) 後ろの端点含まない！！
+    cout<<s[3]-s[1]<<endl;
 
     ll res=-1;
     int k=4;// sum of 4 elements, i<n+1 !!!
@@ -600,7 +607,7 @@ int main() {
 ```
 
 ```cpp
-//dfs, 隣接vector(頂点数多くて、変数が比較的少ない時)・再帰関数
+//dfs, adjacent list(vector)(頂点数多くて、変数が比較的少ない時)・再帰関数
 // ATTENTION!! node# 0-indexed
 
 #include <bits/stdc++.h>
@@ -799,9 +806,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 const int INF = inf;
-typedef vector<vector<int> > Matrix;
-
-const int INF = 100000000;
+typedef vector<vector<int> > Matrix;// adjacent matrix
 Matrix d; // グラフの距離を格納した2次元配列（隣接行列）
           // d[u][v]は辺e=(u,v)のコスト（辺が存在しない場合はINF、ただしd[i][i]=0）
 
@@ -822,6 +827,8 @@ int main() {
   cin >> m;
   for (int i = 0; i < m; i++) {
     int from, to, cost;
+    from--;// 0-based
+    to--;
     cin >> from >> to >> cost;
     d[from][to] = cost;
   }

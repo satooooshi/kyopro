@@ -27,10 +27,12 @@ int main() {
                 sum+=(n[i]-'0');
                 cnt++;
             }
-            if(sum%3==0)res=min(res,(int)n.length()-cnt);
         }
+        if(sum%3==0)res=max(res,cnt);
     }
-    cout<<res<<endl;
+
+    if(res==-1)cout<<-1<<endl;// impossible
+    else cout<<n.length()-res<<endl;
 
 
 

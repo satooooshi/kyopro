@@ -22,6 +22,8 @@ void dfs(const Graph &g, int v) {
     //res.push_back(v); // pushes from leaf to the root
 }
 
+
+// WA!!
 int main() {
     int n;cin>>n;
     vector<string>s(2);
