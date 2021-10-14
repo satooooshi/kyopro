@@ -1155,5 +1155,28 @@ vector<int> get_path(const vector<int> &prev, int t) {
     return path;
 }
 
+int main(){
+    int n,m;cin>>n;m=n-1;
+    g.resize(n);
+    for(int i=0;i<m;i++){
+        int a,b,c;cin>>a>>b>>c;
+        a--;//0-based
+        b--;
+        g[a].push_back({b,c});
+        g[b].push_back({a,c});
+    }
+
+    int q,k;cin>>q>>k;k--;
+    vector<long long>dist;
+    vector<int>prev;
+    dijkstra(g,k,dist,prev);
+    //for(int i=0;i<n;i++){cout<<k<<" to "<<i<<" = "<<dist[i]<<endl;}
+    for(int i=0;i<q;i++){
+        int x,y;cin>>x>>y;
+        x--;
+        y--;
+        cout<<dist[x]+dist[y]<<endl;
+    }
+}
 
 ```
