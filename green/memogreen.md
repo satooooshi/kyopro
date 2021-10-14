@@ -1180,3 +1180,6 @@ int main(){
 }
 
 ```
+https://qiita.com/ysuzuki19/items/df872d91c9c89cc31aee
+3次元配列
+    vector<vector<vector<int>>> dp(n, vector<vector<int>>(301, vector<int>(301, inf)));
