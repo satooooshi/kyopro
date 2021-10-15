@@ -1420,3 +1420,54 @@ std::vector<std::string> rotate(std::vector<std::string> X) {
 }
 
 ```
+
+
+
+```cpp 
+// dfs tree
+#include <bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+
+int N, C[101010];
+vector<int> E[101010];
+//---------------------------------------------------------------------------------------------------
+int cnt[101010];
+bool good[101010];
+void dfs(int cu, int pa = -1) {
+    if (cnt[C[cu]] == 0) good[cu] = true;
+    cnt[C[cu]]++;
+
+    fore(to, E[cu]) if (to != pa) {
+        dfs(to, cu);
+    }
+
+    cnt[C[cu]]--;
+}
+//---------------------------------------------------------------------------------------------------
+int main() {
+    cin >> N;
+    rep(i, 0, N) cin >> C[i];
+    rep(i, 0, N - 1) {
+        int a, b; cin >> a >> b;
+        a--; b--;
+        E[a].push_back(b);
+        E[b].push_back(a);
+    }
+
+    dfs(0);
+    rep(i, 0, N) if(good[i]) printf("%d\n", i + 1);
+
+return 0;
+}
+```

@@ -21,7 +21,7 @@ bool check(ll x) {
             cnt+=a[i]-x+1;
         }
     }
-    if(cnt<k)return 1;
+    if(cnt<k)return 1; //[left, right) ???
     return 0;
 }
 
@@ -31,7 +31,7 @@ int main() {
     for(auto &e:a)cin>>e;
     sort(a.begin(),a.end(),greater<ll>());
 
-    ll left = 0, right = 2*1000000000+1;
+    ll left = 0, right = 2*1000000000+1;//(left,right]
     ll ans=right;
     while ( right - left > 1 ) {
         ll mid = (left + right) / 2;
@@ -42,7 +42,7 @@ int main() {
             left=mid;
         } 
     }
-    //cout << ans << endl;
+    cout << ans << endl;
     ll cnt=k;
     ll res=0;
     for(int i=0;i<n;i++){
