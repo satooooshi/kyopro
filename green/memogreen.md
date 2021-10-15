@@ -1187,6 +1187,7 @@ https://qiita.com/ysuzuki19/items/df872d91c9c89cc31aee
 
 
 ```cpp
+// min span tree
 // kruskal with adjacent list (vector) , uf <--> prim dijkstra adjacent matrix
 // https://algo-logic.info/kruskal-mst/
 //  𝑂(|𝐸|log|𝑉|) 
@@ -1307,5 +1308,115 @@ int main() {
     return 0;
 }
 
+
+```
+
+
+```cpp
+// topological sort
+
+#include "bits/stdc++.h" 
+using namespace std; 
+typedef long long ll;
+ 
+struct DAG {
+private:
+    struct Edge {
+        int to;
+    };
+    std::vector<std::vector<Edge>> graph;
+    bool is_dag = false;
+    std::vector<int> sorted; 
+    int V; 
+public:
+    DAG(int v) {
+        assert(v > 0);
+        V = v;
+        graph.resize(v);
+    }
+    
+    void add_edge(int from, int to) {
+        graph[from].push_back({to});
+    }
+    
+    
+    std::vector<int> topological_sort() {
+        std::stack<int> sta;
+        
+        std::vector<int> in(V, 0);
+        int used_cnt = 0;
+        for (int i = 0; i < V; i++) {
+            for (Edge e : graph[i]) {
+                in[e.to]++;
+            }
+        }
+        for (int i = 0; i < V; i++) if (in[i] == 0) {
+            sta.push(i);
+            used_cnt++;
+        }
+        while (!sta.empty()) {
+            int p = sta.top(); sta.pop();
+            sorted.push_back(p);
+            for (Edge e : graph[p]) {
+                int v = e.to;
+                in[v]--;
+                
+                if (in[v] == 0) {
+                    sta.push(v);
+                    used_cnt++;
+                }
+            }
+        }
+        if (used_cnt == V) {
+            return sorted;
+        }
+        else {
+            return std::vector<int>(0);
+        }
+    }
+    vector<Edge>& operator[](int x) {
+        return graph[x];
+    }
+};
+int main() {
+    int n,m;cin >> n >> m;
+    DAG g(n);
+    for (int i = 0; i < m; i++) {
+        int k;cin >> k;
+        int pre = -1;
+        for (int j = 0; j < k; j++) {
+            int a;cin >> a;a--;
+            if (pre != -1) g.add_edge(pre,a);
+            pre = a;
+        }
+    }
+    auto v = g.topological_sort();
+    if (v.size() == 0) {
+        puts("No");
+    }
+    else {
+        puts("Yes");
+    }
+    return 0;
+}
+
+```
+
+
+
+```cpp
+std::vector<std::string> rotate(std::vector<std::string> X) {
+  int64_t H = static_cast<int64_t>(X.size());
+  int64_t W = static_cast<int64_t>(X.at(0).size());
+
+  std::vector<std::string> x(W);
+  for (int64_t i = 0; i < W; i++) {
+    for (int64_t j = H - 1; j >= 0; j--) {
+      x.at(i).push_back(X.at(j).at(i));
+    }
+  }
+
+  return x;
+}
 
 ```
