@@ -14,7 +14,7 @@ const ll infl = 1LL << 60;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-
+/*
 int N, C[101010];
 vector<int> E[101010];
 //---------------------------------------------------------------------------------------------------
@@ -46,13 +46,15 @@ int main() {
 
 return 0;
 }
+*/
 
 
-/*
 int n,m;
 vector<int>c;
 vector<int>colored;// colored i is used or not
 vector<int>res;
+bool good[101010];
+
 // 深さ優先探索 dfs
 using Graph = vector<vector<int>>;
 //vector<bool> seen;  // 既に見たことがある頂点か記録
@@ -62,7 +64,7 @@ void dfs(int v, int p=-1) {
     //seen[v] = true;
     if(colored[c[v]]==0)res.push_back(v);
     colored[c[v]]++;
-    for (auto next : G[v])if(next!=p){
+    for (int next : G[v])if(next!=p){
         //if (seen[next])continue;   // 訪問済みでなければ探索
         dfs(next, v);
     }
@@ -76,7 +78,7 @@ int main() {
     G.resize(n);//0-indexed
     m=n-1; // tree
     c.resize(n);
-    colored.assign(n,0);
+    colored.resize(101010);//assign(n,0);
     for(int i=0;i<n;i++)cin>>c[i];
     
     for (int i = 0; i < m; i++) {
@@ -89,9 +91,8 @@ int main() {
     }
     //seen.assign(n, false);  // 初期化
     dfs(0);
-    //sort(res.begin(),res.end());
+    sort(res.begin(),res.end());
     for(auto e:res)cout<<e+1<<endl;
 
     return 0;
 }
-*/
