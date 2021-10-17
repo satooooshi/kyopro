@@ -1575,3 +1575,241 @@ int main() {
 
 
 ```
+
+
+
+```cpp
+// 繰り返し二乗法 pow(x,n) x^n
+// 時間計算量: 𝑂(log𝑛) 空間計算量: 𝑂(1)
+//
+const int MOD = 1000000007;
+//const int MOD = 1;
+long long pow(long long x, long long n) {
+    long long ret = 1;
+    while (n > 0) {
+        if (n & 1) ret = ret * x % MOD;  // n の最下位bitが 1 ならば x^(2^i) をかける
+        x = x * x % MOD;
+        n >>= 1;  // n を1bit 左にずらす
+    }
+    return ret;
+}
+```
+
+
+
+```cpp
+// https://qiita.com/goto_yuta_/items/9a3fe5aebb722fc907a2
+// https://algo-logic.info/binomial-coefficient-lucas/
+// lucas 
+/*
+
+Lucas の定理を利用すると、𝑛C𝑘% 𝑝 が 𝑂(𝑝2log𝑝𝑛)で計算できます。
+素数 𝑝 が小さい場合は十分高速です。
+
+p: 素数
+m,n: 非負整数
+C(n,k) := (n個の中からk個を選ぶ場合の数)
+とした時に
+
+C(m,n)≡∏i=0lC(mi,ni)    (mod p)
+C(m,n)≡∏i=0lC(mi,ni)    (mod p)
+ただし、
+
+mlml−1⋯m1m0:=(mのp進数表示)nlnl−1⋯n1n0:=(nのp進数表示)
+mlml−1⋯m1m0:=(mのp進数表示)nlnl−1⋯n1n0:=(nのp進数表示)
+とする。
+
+
+例えば、C(7,2)の偶奇を求める際は(n=5, k=2),(p=2としている)
+
+7 →111_p2
+2 →010_p2
+とまずnとkを二進数(p=2としている)に変換してから、
+その各桁についてC(n,k)を求め、求めたC(n,k)を掛け合わせます。
+
+C(1,0)∗C(1,1)∗C(1,0)=1∗1∗1=1
+よってC(7,2)を2で割った余りは1と導出でき、奇数であることがわかります。
+*/
+
+// 𝑛𝑖C𝑘𝑖 の計算は、パスカルの三角形を上から動的計画法で作っていくイメージです。
+/* Com：nCk % p の計算のための構造体
+    前処理・初期化: O(p^2)
+    nCk(n,k): nCk % p の計算。O(log n)
+*/
+struct Comb {
+    vector<vector<long long>> com;  // 前計算の結果を保存
+    long long p;                    // p は素数である必要がある
+    Comb(long long _p) : p(_p) {
+        init(p);
+    }
+    void init(long long p) {  // 動的計画法で前処理
+        com.assign(p, vector<long long>(p));
+        com[0][0] = 1;
+        for (int i = 1; i < p; i++) {
+            com[i][0] = 1; // nC0 == 1
+            for (int j = i; j > 0; j--) {
+                com[i][j] = (com[i - 1][j - 1] + com[i - 1][j]) % p; // パスカルの三角形を上から動的計画法で作っていく
+            }
+        }
+    }
+    long long nCk(long long n, long long k) {
+        long long ret = 1;
+        while (n > 0) {  // 下から一桁ずつ計算する
+            int ni = n % p; //  p進数 の　Least Bit 
+            int ki = k % p;
+            ret *= com[ni][ki];
+            ret %= p;
+            n /= p; // p進数を shift >> p　する
+            k /= p;
+        }
+        return ret;
+    }
+};
+
+```
+
+
+
+```cpp
+
+// modint (mod p, p is integer, operator^ 繰り返し二乗法) + nCr
+#include<bits/stdc++.h>
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+//#pragma GCC optimize ("-O3")
+using namespace std; 
+typedef long long ll; const int inf = INT_MAX / 2; const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+//---------------------------------------------------------------------------------------------------
+
+template<int MOD> struct ModInt {
+    static const int Mod = MOD; unsigned x; ModInt() : x(0) { }
+    ModInt(signed sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }
+    ModInt(signed long long sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }
+    int get() const { return (int)x; }
+    ModInt &operator+=(ModInt that) { if ((x += that.x) >= MOD) x -= MOD; return *this; }
+    ModInt &operator-=(ModInt that) { if ((x += MOD - that.x) >= MOD) x -= MOD; return *this; }
+    ModInt &operator*=(ModInt that) { x = (unsigned long long)x * that.x % MOD; return *this; }
+    ModInt &operator/=(ModInt that) { return *this *= that.inverse(); }
+    ModInt operator+(ModInt that) const { return ModInt(*this) += that; }
+    ModInt operator-(ModInt that) const { return ModInt(*this) -= that; }
+    ModInt operator*(ModInt that) const { return ModInt(*this) *= that; }
+    ModInt operator/(ModInt that) const { return ModInt(*this) /= that; }
+    ModInt inverse() const { long long a = x, b = MOD, u = 1, v = 0;
+        while (b) { long long t = a / b; a -= t * b; std::swap(a, b); u -= t * v; std::swap(u, v); }
+        return ModInt(u); }
+    bool operator==(ModInt that) const { return x == that.x; }
+    bool operator!=(ModInt that) const { return x != that.x; }
+    ModInt operator-() const { ModInt t; t.x = x == 0 ? 0 : Mod - x; return t; }
+};
+template<int MOD> ostream& operator<<(ostream& st, const ModInt<MOD> a) { st << a.get(); return st; };
+template<int MOD> ModInt<MOD> operator^(ModInt<MOD> a, unsigned long long k) {
+    ModInt<MOD> r = 1; while (k) { if (k & 1) r *= a; a *= a; k >>= 1; } return r; }
+template<typename T, int FAC_MAX> struct Comb { vector<T> fac, ifac;
+    Comb() {fac.resize(FAC_MAX, 1); ifac.resize(FAC_MAX, 1);rep(i, 1, FAC_MAX) fac[i] = fac[i - 1] * i;
+        rep(i, 1, FAC_MAX) ifac[i] = T(1) / fac[i];}
+    T aPb(int a, int b) { if (b < 0 || a < b) return T(0); return fac[a] * ifac[a - b]; }
+    T aCb(int a, int b) { if (b < 0 || a < b) return T(0); return fac[a] * ifac[a - b] * ifac[b]; }
+    T nHk(int n, int k) { if (n == 0 && k == 0) return T(1); if (n <= 0 || k < 0) return 0;
+        return aCb(n + k - 1, k); }}; // nHk = (n+k-1)Ck
+typedef ModInt<998244353> mint;
+
+
+
+
+//---------------------------------------------------------------------------------------------------
+mint _nCr(int n, int r){ 
+   if( n<r || n<0 || r<0 ){ return 0; } 
+   mint ans=1; if(r>(n-r)){ r=n-r; } 
+   for(ll i=1;i<=r;i++){ ans*=(n+1-i); ans/=i; } 
+   return ans; 
+}
+//---------------------------------------------------------------------------------------------------
+
+int main() {
+
+    int n,a,b;ll k;cin>>n>>a>>b>>k;
+    Comb<mint, 1010101> com;
+
+    mint cnt=0;
+
+    for(ll i=0;i<=n;i++){
+        ll rem=k-a*i;
+        if(rem<0)continue;
+        if(rem%b!=0)continue;
+        ll j=rem/b;
+        if(j>n)continue;
+        //cnt+=_nCr(n,i)*_nCr(n,j); // TLE
+        cnt+=com.aCb(n, i) * com.aCb(n, j);
+    }
+    cout<<cnt<<endl;
+
+    return 0;
+}
+
+
+```
+
+
+
+```cpp
+// 典型的な二項係数の求め方 (1 ≦ k ≦ n ≦ 107 程度)
+// https://drken1215.hatenablog.com/entry/2018/06/08/210000
+#include <iostream>
+using namespace std;
+
+const int MAX = 510000;
+const int MOD = 1000000007;
+
+long long fac[MAX], finv[MAX], inv[MAX];
+
+// テーブルを作る前処理
+void COMinit() {
+    fac[0] = fac[1] = 1;
+    finv[0] = finv[1] = 1;
+    inv[1] = 1;
+    for (int i = 2; i < MAX; i++){
+        fac[i] = fac[i - 1] * i % MOD;
+        // p=(p/a)*a+(p%a) --> 0 ≡ (p/a)*a+(p%a) (mod MOD)
+        inv[i] = MOD - inv[MOD%i] * (MOD / i) % MOD; 
+        finv[i] = finv[i - 1] * inv[i] % MOD;
+    }
+}
+
+// 二項係数計算
+long long COM(int n, int k){
+    if (n < k) return 0;
+    if (n < 0 || k < 0) return 0;
+    return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
+}
+
+int main() {
+    //  (1 ≦ k ≦ n ≦ 107 程度) , MOD is prime
+    // 前処理
+    COMinit();
+
+    // 計算例
+    cout << COM(100000, 50000) << endl;
+}
+
+
+// ( 1≦ k ≦ n ≦ 2000 程度、mod. p が素数でなくてもよい)
+// pascal's triangle 
+const long long MOD = 1000000007;
+const int MAX_C = 1000;
+long long Com[MAX_C][MAX_C];
+
+void calc_com() {
+    memset(Com, 0, sizeof(Com));
+    Com[0][0] = 1;
+    for (int i = 1; i < MAX_C; ++i) {
+        Com[i][0] = 1;
+        for (int j = 1; j < MAX_C; ++j) {
+            Com[i][j] = (Com[i-1][j-1] + Com[i-1][j]) % MOD;
+        }
+    }
+}
+```
