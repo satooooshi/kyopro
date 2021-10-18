@@ -347,9 +347,6 @@ int main() {
 
 ```
 
-
-
-
 ```cpp
 // bfs with grid with two ver. 
 

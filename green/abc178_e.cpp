@@ -17,11 +17,17 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 int main(){
 
     int n;cin>>n;
-    vector<pair<int,int>>xy(n);
+    vector<int>a(n),b(n); // x+y, x-y
     for(int i=0;i<n;i++){
-        int x,y;cin>>x>>y;x--;y--;
-        xy.push_back({x,y});
+        int x,y;cin>>x>>y;
+        a[i]=x+y;
+        b[i]=x-y;
     }
+    sort(all(a));
+    sort(all(b));
+
+    cout<<max((a.back()-a[0]),(b.back()-b[0]))<<endl;
+
     
     return 0;
 }
