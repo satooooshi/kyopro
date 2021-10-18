@@ -17,76 +17,54 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 int main(){
 
     int h,w,n,m;cin>>h>>w>>n>>m;
-    vector<vector<int>>g(h,vector<int>(w,0)); // 0-based, akari 1, kabe 2
-    vector<vector<int>>counted(h,vector<int>(w,0)); // 0-based, akari 1, kabe 2
+    vector<vector<int>>a(h,vector<int>(w,0)),b(h,vector<int>(w,0)); // 0-based, akari 1, kabe 2
     for(int i=0;i<n;i++){
-        int a,b;cin>>a>>b;
-        a--;
-        b--;
-        g[a][b]=1;
-
+        int x,y;cin>>x>>y;
+        x--;
+        y--;
+        a[x][y]=1;
     }
     for(int i=0;i<m;i++){
-        int c,d;cin>>c>>d;
-        c--;
-        d--;
-        g[c][d]=2;
+        int x,y;cin>>x>>y;
+        x--;
+        y--;
+        a[x][y]=2;
     }
-
     for(int i=0;i<h;i++){
+        int ok=0;
         for(int j=0;j<w;j++){
-            cout<<g[i][j];
+            if(a[i][j]==1)ok=1;
+            if(a[i][j]==2)ok=0;
+            b[i][j]|=ok;
         }
-        cout<<endl;
+        ok=0;
+        for(int j=w-1;j>=0;j--){
+            if(a[i][j]==1)ok=1;
+            if(a[i][j]==2)ok=0;
+            b[i][j]|=ok;
+        }
     }
 
+    for(int i=0;i<w;i++){
+        int ok=0;
+        for(int j=0;j<h;j++){
+            if(a[j][i]==1)ok=1;
+            if(a[j][i]==2)ok=0;
+            b[j][i]|=ok;
+        }
+        ok=0;
+        for(int j=h-1;j>=0;j--){
+            if(a[j][i]==1)ok=1;
+            if(a[j][i]==2)ok=0;
+            b[j][i]|=ok;
+        }
+    }
     int cnt=0;
     for(int i=0;i<h;i++){
-        int l=0;
-        bool light=false;
-        int j=0;
-        for(;j<w;j++){
-            if(g[i][j]==1){
-                light=true;
-            }
-            if(g[i][j]==2&&light==true){
-                cnt+=(j-l);
-                light=false;
-            }
-            if(j-1>=0&&g[i][j-1]==2&&(g[i][j]==1||g[i][j]==0)){
-                l=j;
-            }
-        }
-        if(light){
-            cnt+=(j-l);
+        for(int j=0;j<w;j++){
+            if(b[i][j])cnt++;
         }
     }
     cout<<cnt<<endl;
-
-    for(int j=0;j<w;j++){
-        int t=0;
-        bool light=false;
-        int i=0;
-        for(;i<h;i++){
-            if(g[i][j]==1){
-                light=true;
-            }
-            if(g[i][j]==2&&light==true){
-                cnt+=(j-t);
-                light=false;
-            }
-            if(j-1>=0&&g[i][j-1]==2&&(g[i][j]==1||g[i][j]==0)){
-                t=j;
-            }
-        }
-        if(light){
-            cnt+=(i-t);
-        }
-
-        cout<<cnt<<endl;
-    }
-
-    
-
     return 0;
 }
