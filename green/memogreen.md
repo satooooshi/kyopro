@@ -252,6 +252,7 @@ int main(){
 #include <bits/stdc++.h>
 using namespace std;
 
+// O(log2X)
 long long GCD(long long x, long long y) {
     if (y == 0) return x;
     else return GCD(y, x % y);
