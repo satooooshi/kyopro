@@ -30,13 +30,9 @@ ll rec(ll i, ll j){ // max j is a[n]
                 return p[i-1]+1;
             }else if(2+a[i-1]<j&&j<3+2*a[i-1]){
                 return p[i-1]+1+rec(i-1,j-2-a[i-1]);
-            }else if(j>=3+2*a[i-1]){ // ..BBBB
+            }else{ //(j>=3+2*a[i-1]) // ..BBBB
                 return 2*p[i-1]+1;
             }
-            /*else{
-                cout<<"IMPOSSIBLE"<<endl;
-                return -1;
-            }*/
 }
 
 
