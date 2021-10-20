@@ -17,7 +17,8 @@ ll n,x;
 vector<ll>a(n+1),p(n+1);// level [0,n] n+1 levels in total
     
 ll rec(ll i, ll j){ // max j is a[n]
-            if(i==0){
+            // 制約でj０はあり得ないが、rec遷移の過程でj０になってしまうことがある
+            if(i==0){ 
                 if(j<=0)return 0;
                 else return 1;
             }
