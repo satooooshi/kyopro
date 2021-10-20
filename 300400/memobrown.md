@@ -95,11 +95,11 @@ https://atcoder.jp/contests/abc216/tasks/abc216_c
 
 216c many balls 後退解析風
 
-topological sort to neighbot vector
+topological sort to adjacent list(vector)
 ```cpp
-//https://algo-logic.info/topological-sort/
-#include <bits/stdc++.h>
-using namespace std;
+#include "bits/stdc++.h" 
+using namespace std; 
+typedef long long ll;
 
 struct Edge {
     int to;
@@ -118,20 +118,20 @@ vector<int> topo_sort(const Graph &G) {  // bfs
             ind[e.to]++;
         }
     }
-    queue<int> que;
+    priority_queue<int, vector<int>, greater<int>> que;
     for (int i = 0; i < n; i++) {  // 次数が0の点をキューに入れる
-        if (ind[i] == 0) {
+        if (ind[i] == 0) { // IMPORTANT!! can sort by asc using priority queue!!
             que.push(i);
         }
     }
     while (!que.empty()) {  // 幅優先探索
-        int now = que.front();
-        ans.push_back(now);
+        int now = que.top();
         que.pop();
+        ans.push_back(now);
         for (auto e : G[now]) {
             ind[e.to]--;
             if (ind[e.to] == 0) {
-                que.push(e.to);
+                que.push(e.to); // IMPORTANT!! can sort the node numbers by asc using priority queue!!
             }
         }
     }
@@ -142,24 +142,23 @@ int main() {
     int n,m;cin >> n >> m;
     Graph g(n);
     for (int i = 0; i < m; i++) {
-        int k,pre = -1;cin >> k;
-        for (int j = 0; j < k; j++) {
-            int a;cin >> a;a--;
-            if (pre != -1) g[pre][a];//g.add_edge(pre,a);
-            if (pre == a) { // exist loop, cannot sort topologically
-                puts("No");
-                return 0;
-            }
-            pre = a;
-        }
+            int a,b;cin>>a>>b;
+            a--;
+            b--;
+            g[a].push_back({b});
     }
-
-
     auto v = topo_sort(g);
-    if (v.size() == n) puts("Yes");
-    else puts("No");
+    if (v.size() != n) {
+        cout<<-1<<endl;
+    }
+    else {
+        for(int i=0;i<v.size();i++){
+            cout<<v[i]+1<<" ";
+        }cout<<endl;
+    }
     return 0;
 }
+
 ```
 
 
@@ -510,7 +509,7 @@ int main() {
 ```cpp
 // bfs,queue, bq, when edge weight==1, can find shortest path, 
 // node# 0-indexed 
-
+// O(E+V)
 using namespace std;
 using Graph = vector<vector<int>>;
 
@@ -579,6 +578,7 @@ int main() {
     for (int i = 0; i < E; i++) {
         int a, b;
         cin >> a >> b;
+        a--;b--;
         G[a].push_back({b});
         // G[b].push_back({a});
     }
@@ -609,11 +609,15 @@ int main() {
 ```cpp
 //dfs, adjacent list(vector)(頂点数多くて、変数が比較的少ない時)・再帰関数
 // ATTENTION!! node# 0-indexed
-
 #include <bits/stdc++.h>
 using namespace std;
 
-// 深さ優先探索 dfs
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+// 深さ優先探索 dfs O(V+E)
 using Graph = vector<vector<int>>;
 vector<bool> seen;  // 既に見たことがある頂点か記録
 void dfs(const Graph &G, int v) {
@@ -634,6 +638,7 @@ int main() {
     for (int i = 0; i < E; i++) {
         int a, b;
         cin >> a >> b;
+        a--;b--;
         G[a].push_back({b});
         // G[b].push_back({a});
     }
@@ -1026,7 +1031,13 @@ int main() {
     cout << endl;
 }
 
-// prime_factorize
+// O(log2X)
+long long GCD(long long x, long long y) {
+    if (y == 0) return x;
+    else return GCD(y, x % y);
+}
+
+// prime_factorize, does NOT contain 1(because 1 is a not prime), O(sqrt(N)), #prime_factors is log2N
 vector<pair<long long, long long> > prime_factorize(long long N) {
     vector<pair<long long, long long> > res;
     for (long long a = 2; a * a <= N; ++a) {
@@ -1174,6 +1185,8 @@ int main() {
 
 ```cpp
 //binary search,bs, O(log2N)
+#include<bits/stdc++.h>
+using namespace std;
 
 #define rep(i,a,b) for(int i=a;i<b;i++)
 #define rrep(i,a,b) for(int i=a;i>=b;i--)
