@@ -14,7 +14,24 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 
-    ll a,b;cin>>a>>b;
+    int n;cin>>n;
+    vector<int>m(n),a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+
+    
+    ll sum=0;
+    for(int i=0;i<n;i++){
+        if(i%2)sum+=(-1)*a[i];
+        else sum+=a[i];
+    }
+    m[0]=sum;// m0=sigma(ai)
+    for(int i=n-1;i>=0;i--){
+        m[i]=2*a[i]-m[(i+1)%n];
+    }
+
+    for(auto e:m)cout<<e<<" ";cout<<endl;
 
     return 0;
 }

@@ -14,7 +14,27 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 
-    ll a,b;cin>>a>>b;
+    int n,k;cin>>n>>k;
+    string s;cin>>s;
+
+    int cnt=0;
+    int unh=0;
+    if(s[0]=='L')unh++;
+    for(int i=1;i<n;i++){
+        if(s[i-1]=='R'&&s[i]=='L'){
+            cnt+=2;
+        }
+    }
+    if(s[n-1]=='R')unh++;
+
+    while(k--&&cnt-2>=0){
+        cnt-=2;
+    }
+
+    while(k--&&unh--){
+        // do nothing;
+    }
+    cout<<n-cnt-unh<<endl;
 
     return 0;
 }
