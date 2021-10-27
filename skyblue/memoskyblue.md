@@ -169,8 +169,10 @@ int main() {
     return 0;
 }
 
-
-
-
 ```
 
+平均値が  K 以上
+⇔  a-K, b-K, c-K, \dots の平均値が  0 以上
+⇔  a-K, b-K, c-K, \dots の総和が  0 以上
+
+転倒数
