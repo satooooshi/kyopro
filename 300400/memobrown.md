@@ -321,7 +321,7 @@ void _main() {
 
 // union-find, union find
 //---------------------------------------------------------------------------------------------------
-struct UnionFind {
+struct UnionFind { // 0-based
 	using T = int;
 	const T def = 0;
 	T f(T a, T b) { return a + b; }
@@ -358,7 +358,7 @@ struct UnionFind {
 };
 //---------------------------------------------------------------------------------------------------
 int main() {
-    int N, A[201010]; // 2*10^5 == 201010
+    int N, A[201010]; // 2*10^5 == 201010, 0-based
 	cin >> N;
 	rep(i, 0, N) cin >> A[i];
  
@@ -522,6 +522,8 @@ int main() {
     for (int i = 0; i < M; ++i) {
         int a, b;
         cin >> a >> b;
+        a--;
+        b--;
         G[a].push_back(b);
         G[b].push_back(a);
     }
