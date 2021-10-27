@@ -99,6 +99,7 @@ int main() {
     // Ai<=10^9 -compress-> N<=10^5
     // attention!! add(x), sum(x), x must be x>=1, 
     // compressed array starts from 0 
+    // use mod in BIT structure
     #include<bits/stdc++.h>
 using namespace std;
 

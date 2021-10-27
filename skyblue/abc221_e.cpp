@@ -12,6 +12,9 @@ const ll infl = 1LL << 60;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+
+const ll mod = 998244353;
+
 template <class Abel> struct BIT {
     vector<Abel> dat;
     Abel UNITY_SUM = 0;                     // to be set
@@ -26,14 +29,14 @@ template <class Abel> struct BIT {
     /* a is 1-indexed */
     inline void add(int a, Abel x) {
         for (int i = a; i < (int)dat.size(); i += i & -i)
-            dat[i] = dat[i] + x;
+            dat[i] = (dat[i] + x)%mod;
     }
 
     /* [1, a], a is 1-indexed */
     inline Abel sum(int a) {
         Abel res = UNITY_SUM;
         for (int i = a; i > 0; i -= i & -i)
-            res = res + dat[i];
+            res = (res + dat[i])%mod;
         return res;
     }
 
@@ -64,7 +67,7 @@ template <class Abel> struct BIT {
 };
 
 
-const ll mod = 998244353;
+
 
 ll modpow(ll x, ll y){
     ll ret = 1;
