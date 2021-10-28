@@ -100,7 +100,7 @@ int main() {
     // attention!! add(x), sum(x), x must be x>=1, 
     // compressed array starts from 0 
     // use mod in BIT structure
-    #include<bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 #define rep(i,a,b) for(int i=a;i<b;i++)
@@ -208,5 +208,97 @@ int main(){
     }
     cout << ans << endl;
     return 0;
+}
+```
+
+
+```cpp
+                //Bに到達した後に再帰から戻ってくる帰りの部分は
+                //丁度最短経路のみ通ってくることになる
+
+                // need to distinguish edge No. then use,..
+                // vector<pair<int, int>> E[1010];
+#include <bits/stdc++.h>
+using namespace std;
+
+// dfs, recur, backtrack, keep edgeNo.
+
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+
+typedef long long ll; const int inf = INT_MAX / 2; 
+const ll infl = 1LL << 60;
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+int N, M, K, A[101];
+vector<pair<int, int>> E[1010];
+int cnt[1010]; // cnti --> # edgei visited 
+int dp[2][201010];
+const int BASE = 100005;
+//---------------------------------------------------------------------------------------------------
+bool dfs(int cu, int pa, int goal) {
+    if (cu == goal) return true;
+
+    fore(p, E[cu]) if (p.first != pa) {
+        bool res = dfs(p.first, cu, goal);
+        if (res) {
+            //Bに到達した後に再帰から戻ってくる帰りの部分は
+            //丁度最短経路のみ通ってくることになる
+            cnt[p.second]++;
+            return true;
+        }
+    }
+
+    return false;
+}
+//---------------------------------------------------------------------------------------------------
+int main() {
+    cin >> N >> M >> K;
+    rep(i, 0, M) cin >> A[i];
+    rep(i, 0, N - 1) {
+        int u, v; cin >> u >> v;
+        E[u].push_back({ v, i });
+        E[v].push_back({ u, i });
+    }
+
+    rep(i, 0, M - 1) dfs(A[i], -1, A[i + 1]);
+    for(int i=0;i<N-1;i++)cout<<cnt[i]<<endl;
+
+    return 0;
+}
+
+```
+
+
+```cpp
+// dfs, kazoeage, goalに着いた時にカウント
+#include <iostream>
+using namespace std;
+int H, W, A, B, ans = 0;
+void dfs(int i, int bit, int A, int B){
+    // bit set already tatami is placed @ i[0,HW)
+    // row0[0,w)row1[w,2*w)..[,HW)
+    if(i == H * W){ans++;return;}//return (void)ans++;// 
+    if(bit & 1 << i) return dfs(i + 1, bit, A, B);
+    // 正方形
+    if(B) dfs(i + 1, bit | 1 << i, A, B - 1);
+    // 長方形
+    if(A){
+        // 右に伸ばす
+        if(i % W != W - 1 && ~bit & 1 << (i + 1)) dfs(i + 1, bit | 1 << i | 1 << (i + 1), A - 1, B);
+        // 下に伸ばす
+        if(i + W < H * W) dfs(i + 1, bit | 1 << i | 1 << (i + W), A - 1, B);
+    }
+}
+int main(){
+    cin >> H >> W >> A >> B;
+
+    // 長方形の畳の左上となる場所を決め、そこから右か下かどちらに伸ばす
+    // 3(置き方　正方形x1+長方形x2)^16(#grid) O(3^16)
+    dfs(0, 0, A, B);
+    cout << ans << endl;
 }
 ```
